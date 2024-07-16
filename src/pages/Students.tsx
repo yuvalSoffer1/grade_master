@@ -7,6 +7,7 @@ import { useStudentContext } from "../context/StudentContext";
 import StyledButton from "../components/ui/StyledButton";
 import { IStudentResponse } from "../models/StudentsResponses";
 import { IStudentTable } from "../models/TableModels";
+import { exportToCSV } from "../utils/exportToCsv";
 
 const Students = () => {
   const { getAllStudents } = useStudent();
@@ -14,6 +15,9 @@ const Students = () => {
   const [selectedDisplay, setSelectedDisplay] = useState("");
   const { studentsState } = useStudentContext();
   const { students } = studentsState;
+  const handleExport = () => {
+    exportToCSV(students, "students.csv");
+  };
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,6 +41,13 @@ const Students = () => {
     <div className=" flex flex-col items-center text-center">
       {selectedDisplay === "" && (
         <>
+          <StyledButton
+            buttonType="button"
+            text="Export To Csv"
+            onClickButton={handleExport}
+            extraColor="green"
+            width="15%"
+          />
           <StudentsTable
             students={students as IStudentTable[]}
             isEditable={true}
@@ -59,7 +70,7 @@ const Students = () => {
           />
           <StyledButton
             buttonType="button"
-            text="Add Students From CSV"
+            text="Import Students From CSV"
             onClickButton={() => setSelectedDisplay("CSV")}
             width="16.67%"
           />
