@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RegisterPayload } from "../../models/AuthPayloads";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
+import StyledButton from "../../components/ui/StyledButton";
 
 const Register = () => {
   const {
@@ -12,40 +13,36 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterPayload>();
 
-  const navigate = useNavigate();
-
   const { registerApi } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  //Validators
-  const firstNameValidation = {
-    required: "First Name is required",
-  };
-
-  const lastNameValidation = {
-    required: "Last Name is required",
-  };
-
-  const emailValidation = {
-    required: "Email is required",
-    pattern: {
-      value: /^\S+@\S+\.\S+$/,
-      message: "Entered value does not match email format",
+  const validationRules = {
+    firstName: {
+      required: "First Name is required",
     },
-  };
-
-  const passwordValidation = {
-    required: "Password is required",
-    minLength: {
-      value: 8,
-      message: "Password must have at least 8 characters",
+    lastName: {
+      required: "Last Name is required",
     },
-    pattern: {
-      value:
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      message:
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    email: {
+      required: "Email is required",
+      pattern: {
+        value: /^\S+@\S+\.\S+$/,
+        message: "Entered value does not match email format",
+      },
+    },
+    password: {
+      required: "Password is required",
+      minLength: {
+        value: 8,
+        message: "Password must have at least 8 characters",
+      },
+      pattern: {
+        value:
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      },
     },
   };
 
@@ -62,8 +59,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+    <div className="flex items-center justify-center min-h-screen ">
+      <div className="w-full max-w-md bg-white p-8 border border-gray-300  shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
@@ -77,7 +74,7 @@ const Register = () => {
               type="text"
               id="firstName"
               placeholder="First Name"
-              {...register("firstName", firstNameValidation)}
+              {...register("firstName", validationRules.firstName)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.firstName && (
@@ -95,7 +92,7 @@ const Register = () => {
               type="text"
               id="lastName"
               placeholder="Last Name"
-              {...register("lastName", lastNameValidation)}
+              {...register("lastName", validationRules.lastName)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.lastName && (
@@ -113,7 +110,7 @@ const Register = () => {
               type="email"
               id="email"
               placeholder="user@email.com"
-              {...register("email", emailValidation)}
+              {...register("email", validationRules.email)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.email && (
@@ -131,19 +128,15 @@ const Register = () => {
               type="password"
               id="password"
               placeholder="your password"
-              {...register("password", passwordValidation)}
+              {...register("password", validationRules.password)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.password && (
               <span className="text-red-600">{errors.password.message}</span>
             )}
           </div>
-          <button
-            type="submit"
-            className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Register
-          </button>
+
+          <StyledButton buttonType="submit" text="Register" width="100%" />
         </form>
         <p className="text-center mt-4">
           Already registered?

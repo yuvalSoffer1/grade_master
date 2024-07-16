@@ -7,6 +7,7 @@ import { useAuthContext } from "../../../context/AuthContext";
 
 const Header = () => {
   const { state } = useAuthContext();
+  const token = Cookies.get("jwt_token");
   return (
     <header className="bg-blue-600 text-white p-4">
       <div className="flex justify-between items-center max-w-screen-xl mx-auto">
@@ -15,7 +16,7 @@ const Header = () => {
         </Link>
 
         <nav className=" space-x-4">
-          {state.firstName !== "" ? <OnlineHeader /> : <OfflineHeader />}
+          {token ? <OnlineHeader /> : <OfflineHeader />}
         </nav>
       </div>
     </header>

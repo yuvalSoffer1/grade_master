@@ -13,8 +13,8 @@ const Home = () => {
 
   return (
     <div className="container mx-auto  py-8 flex flex-col items-center">
-      <h1 className="text-2xl text-center font-bold mb-6">{`Welcome, ${state.firstName} ${state.lastName}`}</h1>
-      <div className="grid grid-cols-1 mt-6 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
+      <h1 className="text-2xl text-center font-bold mb-6">{`Welcome  ${state.firstName} ${state.lastName}`}</h1>
+      <div className="grid grid-cols-4 gap-4 justify-items-center mt-6 sm:grid-cols-2 ">
         {cards.map((card, index) => (
           <div
             key={index}
