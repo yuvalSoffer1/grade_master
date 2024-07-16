@@ -5,7 +5,6 @@ import AddStudentCard from "../components/ui/cards/students/AddStudentCard";
 import AddStudentsFromCsv from "../components/ui/csvs/AddStudentsFromCsv";
 import { useStudentContext } from "../context/StudentContext";
 import StyledButton from "../components/ui/StyledButton";
-import { IStudentResponse } from "../models/StudentsResponses";
 import { IStudentTable } from "../models/TableModels";
 import { exportToCSV } from "../utils/exportToCsv";
 
