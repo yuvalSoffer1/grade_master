@@ -4,6 +4,7 @@ import { IStudentResponse } from "../models/StudentsResponses";
 type StudentAction =
   | { type: "GET_ALL_SUCCESS"; payload: IStudentResponse[] }
   | { type: "CREATE_SUCCESS"; payload: IStudentResponse }
+  | { type: "CREATE_FROM_CSV_SUCCESS"; payload: IStudentResponse[] }
   | { type: "DELETE_SUCCESS"; payload: { studentId: string } };
 
 interface StudentState {
@@ -37,6 +38,14 @@ const studentReducer = (
         students: state.students
           ? [...state.students, newStudent]
           : [newStudent],
+      };
+    }
+    case "CREATE_FROM_CSV_SUCCESS": {
+      const newStudents = action.payload;
+      return {
+        students: state.students
+          ? [...state.students, ...newStudents]
+          : newStudents,
       };
     }
 

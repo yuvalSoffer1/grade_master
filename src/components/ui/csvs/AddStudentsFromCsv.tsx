@@ -3,10 +3,36 @@ import Papa from "papaparse";
 import StudentsTable from "../tables/students/StudentsTable";
 import StyledButton from "../StyledButton";
 import { IStudentTable } from "../../../models/TableModels";
+import { CreateStudentPayload } from "../../../models/StudentsPayloads";
+import { useStudent } from "../../../hooks/useStudent";
+import { toast } from "react-toastify";
 
-const AddStudentsFromCsv = () => {
+interface IAddStudentsFromCsvProps {
+  setSelectedDisplay: (value: string) => void;
+}
+
+const AddStudentsFromCsv = ({
+  setSelectedDisplay,
+}: IAddStudentsFromCsvProps) => {
   const [studentsFromCsv, setStudentsFromCsv] = useState<IStudentTable[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
+  const { createStudentsFromCsv } = useStudent();
+
+  const onSubmit = async () => {
+    if (errors.length) {
+      toast.error("Data is invalid!");
+      return;
+    }
+    try {
+      const studentsToCreate: CreateStudentPayload[] =
+        studentsFromCsv as CreateStudentPayload[];
+      await createStudentsFromCsv(studentsToCreate);
+      toast.success("Students were created");
+      setSelectedDisplay("");
+    } catch (error) {
+      toast.error("Students already exist!");
+    }
+  };
 
   type ValidationRule = {
     required?: string;
@@ -74,19 +100,22 @@ const AddStudentsFromCsv = () => {
         header: true,
         dynamicTyping: false,
         complete: (results) => {
-          /* Filter out invalid entries
-          const validData = results.data.filter(
-            (item: any) => item.studentId && item.firstName && item.lastName
-          );*/
+          const validData = results.data.filter((item: any) => {
+            // Check if the row is not empty and has required fields
+            return (
+              item.studentId?.trim() ||
+              item.firstName?.trim() ||
+              item.lastName?.trim()
+            );
+          });
 
-          const data = results.data.map((item: any) => ({
+          const data = validData.map((item: any) => ({
             studentId: item.studentId,
             firstName: item.firstName,
             lastName: item.lastName,
             prefixPhoneNumber: item.prefixPhoneNumber || "",
             phoneNumber: +item.phoneNumber || "",
           })) as IStudentTable[];
-          console.log(data);
           setStudentsFromCsv(data);
           // Validate data
           const errors: string[] = [];
@@ -120,9 +149,9 @@ const AddStudentsFromCsv = () => {
       <StudentsTable students={studentsFromCsv} isEditable={false} />
       <StyledButton
         buttonType="button"
-        text="Send"
-        onClickButton={() => {}}
-        width="25%"
+        text="Submit"
+        onClickButton={onSubmit}
+        width="33.34%"
       />
     </div>
   );

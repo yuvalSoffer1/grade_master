@@ -29,6 +29,22 @@ export const useStudent = () => {
       throw new Error(err);
     }
   };
+  const createStudentsFromCsv = async (
+    studentsDetails: CreateStudentPayload[]
+  ) => {
+    try {
+      const res = await dotnetApi.post("students/create-csv", studentsDetails);
+      const newStudents: IStudentResponse[] = res.data;
+      studentDispatch({
+        type: "CREATE_FROM_CSV_SUCCESS",
+        payload: newStudents,
+      });
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
   const deleteStudent = async (studentId: string) => {
     try {
       await dotnetApi.delete(`students/${studentId}`);
@@ -43,5 +59,10 @@ export const useStudent = () => {
       throw new Error(err);
     }
   };
-  return { getAllStudents, createStudent, deleteStudent };
+  return {
+    getAllStudents,
+    createStudent,
+    createStudentsFromCsv,
+    deleteStudent,
+  };
 };

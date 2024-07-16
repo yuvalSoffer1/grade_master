@@ -71,7 +71,18 @@ const Students = () => {
           setSelectedDisplay={setSelectedDisplay}
         />
       )}
-      {selectedDisplay === "CSV" && <AddStudentsFromCsv />}
+      {selectedDisplay === "CSV" && (
+        <AddStudentsFromCsv setSelectedDisplay={setSelectedDisplay} />
+      )}
+      {selectedDisplay !== "" && (
+        <StyledButton
+          buttonType="button"
+          text="Return"
+          onClickButton={() => setSelectedDisplay("")}
+          width="25%"
+          extraColor="red"
+        />
+      )}
     </div>
   );
 };
