@@ -10,6 +10,8 @@ import Classes from "./pages/Classes";
 import Students from "./pages/Students";
 import Grades from "./pages/Grades";
 import Settings from "./pages/Settings";
+import { useDisplayContext } from "./context/DisplayContext";
+import LoadingOverlay from "./components/ui/LoadingOverlay";
 
 const protectedRoutes = [
   { path: "/home", element: <Home /> },
@@ -20,9 +22,12 @@ const protectedRoutes = [
 ];
 
 function App() {
+  const { displayState } = useDisplayContext();
   return (
     <>
+      <LoadingOverlay visible={displayState.isLoading} />
       <Header />
+
       <Routes>
         <Route
           path="/"

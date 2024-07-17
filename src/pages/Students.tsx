@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStudent } from "../hooks/useStudent";
 import StudentsTable from "../components/ui/tables/students/StudentsTable";
 import AddStudentCard from "../components/ui/cards/students/AddStudentCard";
@@ -17,8 +17,6 @@ const Students = () => {
   const handleExport = () => {
     exportToCSV(students, "students.csv");
   };
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const getAllStudentsAsync = async () => {
     try {
@@ -76,10 +74,7 @@ const Students = () => {
         </>
       )}
       {selectedDisplay === "Manually" && (
-        <AddStudentCard
-          setIsLoading={setIsLoading}
-          setSelectedDisplay={setSelectedDisplay}
-        />
+        <AddStudentCard setSelectedDisplay={setSelectedDisplay} />
       )}
       {selectedDisplay === "CSV" && (
         <AddStudentsFromCsv setSelectedDisplay={setSelectedDisplay} />
