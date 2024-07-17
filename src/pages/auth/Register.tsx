@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -6,8 +5,7 @@ import { toast } from "react-toastify";
 import { registerValidationRules } from "../../utils/validationRules";
 import GenericForm from "../../components/ui/cards/GenericForm";
 import { RegisterPayload } from "../../models/AuthPayloads";
-import { useDisplay } from "../../hooks/useDisplay";
-import { DisplayType } from "../../models/DisplayType";
+import { useDisplay, DisplayType } from "../../hooks/useDisplay";
 
 const Register = () => {
   const { registerApi } = useAuth();

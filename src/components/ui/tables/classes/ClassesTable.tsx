@@ -1,5 +1,6 @@
 import GenericTable from "../GenericTable";
 import { IGetClassesResponse } from "../../../../models/ClassResponses";
+import { useNavigate } from "react-router-dom";
 
 const ClassesTable = ({
   classes,
@@ -11,9 +12,12 @@ const ClassesTable = ({
   const columns: { header: string; accessor: keyof IGetClassesResponse }[] = [
     { header: "Class Name", accessor: "className" },
     { header: "Group Id", accessor: "groupId" },
+    { header: "Amount of Students", accessor: "amountOfStudents" },
   ];
 
-  const handleDeleteStudent = async (id: string | number) => {
+  const navigate = useNavigate();
+
+  const handleDeleteClass = async (id: string | number) => {
     if (typeof id === "number") {
       await console.log(id);
     } else {
@@ -26,7 +30,8 @@ const ClassesTable = ({
       data={classes}
       columns={columns}
       isEditable={isEditable}
-      deleteHandler={handleDeleteStudent}
+      actionHandler={(classId: number) => navigate(`/classes/${classId}`)}
+      deleteHandler={handleDeleteClass}
       idAccessor="classId"
       itemName="Class"
     />

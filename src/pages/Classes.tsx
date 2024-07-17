@@ -18,8 +18,6 @@ const Classes = () => {
     exportToCSV(classes, "classes.csv");
   };
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const getAllClassesAsync = async () => {
     try {
       await getAllClasses();
@@ -27,14 +25,18 @@ const Classes = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    if (!isEffectRan.current) {
-      getAllClassesAsync();
-    }
-    return () => {
-      isEffectRan.current = true;
-    };
-  }, []);
+  useEffect(
+    () => {
+      if (!isEffectRan.current) {
+        getAllClassesAsync();
+      }
+      return () => {
+        isEffectRan.current = true;
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className=" flex flex-col items-center text-center">

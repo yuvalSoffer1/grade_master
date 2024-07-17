@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { useClass } from "../../../../hooks/useClass";
 import { toast } from "react-toastify";
 import { addClassValidationRules } from "../../../../utils/validationRules";
 import GenericForm from "../../../../components/ui/cards/GenericForm";
 import { CreateClassPayload } from "../../../../models/ClassPayloads";
-import { useDisplay } from "../../../../hooks/useDisplay";
-import { DisplayType } from "../../../../models/DisplayType";
+import { useDisplay, DisplayType } from "../../../../hooks/useDisplay";
 
 interface IAddClassCardProps {
   setSelectedDisplay: (value: string) => void;

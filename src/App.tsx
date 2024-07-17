@@ -12,10 +12,12 @@ import Grades from "./pages/Grades";
 import Settings from "./pages/Settings";
 import { useDisplayContext } from "./context/DisplayContext";
 import LoadingOverlay from "./components/ui/LoadingOverlay";
+import ChosenClass from "./pages/ChosenClass";
 
 const protectedRoutes = [
   { path: "/home", element: <Home /> },
   { path: "/classes", element: <Classes /> },
+  { path: "/classes/:classId", element: <ChosenClass /> },
   { path: "/students", element: <Students /> },
   { path: "/grades", element: <Grades /> },
   { path: "/settings", element: <Settings /> },

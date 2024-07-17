@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useDisplayContext } from "../../../context/DisplayContext";
 import DeleteModal from "../modals/DeleteModal";
 import { toast } from "react-toastify";
-import { useDisplay } from "../../../hooks/useDisplay";
-import { DisplayType } from "../../../models/DisplayType";
-import { IconTrashFilled } from "@tabler/icons-react";
+import { useDisplay, DisplayType } from "../../../hooks/useDisplay";
+import { IconTrashFilled, IconCirclePlus } from "@tabler/icons-react";
 
 interface IGenericTableProps<T> {
   data: T[];
   columns: { header: string; accessor: keyof T }[];
   isEditable: boolean;
   deleteHandler?: (id: string | number) => Promise<void>;
+  actionHandler?: (id: number) => void;
   itemName?: string;
   idAccessor: keyof T;
 }
@@ -19,6 +19,8 @@ const GenericTable = <T extends { [key: string]: any }>({
   data,
   columns,
   isEditable,
+
+  actionHandler,
   deleteHandler,
   itemName,
   idAccessor,
@@ -55,9 +57,7 @@ const GenericTable = <T extends { [key: string]: any }>({
                 {column.header}
               </th>
             ))}
-            {isEditable && deleteHandler && (
-              <th className="px-4 py-2 border">Delete</th>
-            )}
+            {isEditable && <th className="px-4 py-2 border">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -71,15 +71,24 @@ const GenericTable = <T extends { [key: string]: any }>({
                   {item[column.accessor]}
                 </td>
               ))}
-              {isEditable && deleteHandler && (
-                <td className="px-4 py-2 text-center border">
-                  <IconTrashFilled
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setIdToDelete(item[idAccessor] as string | number);
-                      displayManager(DisplayType.SHOW_MODAL);
-                    }}
-                  />
+
+              {isEditable && (
+                <td className=" flex flex-row px-4 py-2 text-center border">
+                  {actionHandler && (
+                    <IconCirclePlus
+                      className="cursor-pointer"
+                      onClick={() => actionHandler(item[idAccessor])}
+                    />
+                  )}
+                  {deleteHandler && (
+                    <IconTrashFilled
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setIdToDelete(item[idAccessor] as string | number);
+                        displayManager(DisplayType.SHOW_MODAL);
+                      }}
+                    />
+                  )}
                 </td>
               )}
             </tr>

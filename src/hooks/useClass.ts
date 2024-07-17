@@ -1,7 +1,11 @@
 import { dotnetApi } from "../api/apiConfig";
 import { useClassContext } from "../context/ClassContext";
-import { CreateClassPayload } from "../models/ClassPayloads";
+import {
+  AddStudentsToClassPayload,
+  CreateClassPayload,
+} from "../models/ClassPayloads";
 import { IGetClassesResponse } from "../models/ClassResponses";
+import { IStudentResponse } from "../models/StudentsResponses";
 import { axiosErrorExtractor } from "../utils/axiosErrorUtils";
 
 export const useClass = () => {
@@ -29,6 +33,53 @@ export const useClass = () => {
       throw new Error(err);
     }
   };
+  const getStudentsByClassId = async (classId: number) => {
+    try {
+      const res = await dotnetApi.get(`classes/${classId}/class-students`);
+      const studentsOfClass: IStudentResponse[] = res.data;
+      return studentsOfClass;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+  const addStudentsToClass = async (classId: number, studentsIds: string[]) => {
+    try {
+      const res = await dotnetApi.put(`classes/${classId}/students/add`, {
+        studentsIds,
+      });
+      const studentsOfClass: IStudentResponse[] = res.data;
+      classDispatch({
+        type: "ADD_STUDENTS_SUCCESS",
+        payload: { classId: classId, students: studentsOfClass },
+      });
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+  //{classId:int}/students/remove"
+  const removeStudentFromClass = async (
+    classId: number,
+    studentsId: string
+  ) => {
+    try {
+      await dotnetApi.put(`classes/${classId}/students/remove`, {
+        studentsId: studentsId,
+      });
+
+      classDispatch({
+        type: "REMOVE_STUDENT_SUCCESS",
+        payload: { classId: classId, studentId: studentsId },
+      });
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
 
   /* const deleteClass = async (classId: number) => {
     try {
@@ -47,5 +98,8 @@ export const useClass = () => {
   return {
     getAllClasses,
     createClass,
+    getStudentsByClassId,
+    addStudentsToClass,
+    removeStudentFromClass,
   };
 };

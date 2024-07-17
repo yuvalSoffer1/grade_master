@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import { loginValidationRules } from "../../utils/validationRules";
 import GenericForm from "../../components/ui/cards/GenericForm";
 import { LoginPayload } from "../../models/AuthPayloads";
-import { useDisplay } from "../../hooks/useDisplay";
-import { DisplayType } from "../../models/DisplayType";
+import { useDisplay, DisplayType } from "../../hooks/useDisplay";
 
 const Login = () => {
   const { login } = useAuth();

@@ -3,8 +3,7 @@ import { useStudent } from "../../../../hooks/useStudent";
 import { addStudentValidationRules } from "../../../../utils/validationRules";
 import GenericForm from "../../../../components/ui/cards/GenericForm";
 import { CreateStudentPayload } from "../../../../models/StudentsPayloads";
-import { useDisplay } from "../../../../hooks/useDisplay";
-import { DisplayType } from "../../../../models/DisplayType";
+import { useDisplay, DisplayType } from "../../../../hooks/useDisplay";
 
 interface IAddStudentCardProps {
   setSelectedDisplay: (value: string) => void;

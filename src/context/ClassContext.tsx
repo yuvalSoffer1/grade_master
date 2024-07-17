@@ -1,11 +1,20 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
 
 import { IGetClassesResponse } from "../models/ClassResponses";
+import { IStudentResponse } from "../models/StudentsResponses";
 
 type ClassAction =
   | { type: "GET_ALL_SUCCESS"; payload: IGetClassesResponse[] }
   | { type: "CREATE_SUCCESS"; payload: IGetClassesResponse }
-  | { type: "DELETE_SUCCESS"; payload: { classId: number } };
+  | { type: "DELETE_SUCCESS"; payload: { classId: number } }
+  | {
+      type: "ADD_STUDENTS_SUCCESS";
+      payload: { classId: number; students: IStudentResponse[] };
+    }
+  | {
+      type: "REMOVE_STUDENT_SUCCESS";
+      payload: { classId: number; studentId: string };
+    };
 
 interface ClassState {
   classes: IGetClassesResponse[] | [];
@@ -43,6 +52,31 @@ const classReducer = (state: ClassState, action: ClassAction): ClassState => {
           ? state.classes.filter((c) => c.classId !== action.payload.classId)
           : [],
       };
+    case "ADD_STUDENTS_SUCCESS": {
+      const { classId, students } = action.payload;
+      return {
+        classes: state.classes.map((c) =>
+          c.classId === classId
+            ? { ...c, students: [...(c.students ?? []), ...students] }
+            : c
+        ),
+      };
+    }
+    case "REMOVE_STUDENT_SUCCESS": {
+      const { classId, studentId } = action.payload;
+      return {
+        classes: state.classes.map((c) =>
+          c.classId === classId
+            ? {
+                ...c,
+                students: (c.students ?? []).filter(
+                  (s) => s.studentId !== studentId
+                ),
+              }
+            : c
+        ),
+      };
+    }
 
     default:
       return state;
