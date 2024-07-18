@@ -1,32 +1,30 @@
-import { useEffect, useState } from "react";
-import { useStudentContext } from "../../../context/StudentContext";
+import { useState } from "react";
+
 import AddStudentsToClassTable from "../tables/students/AddStudentsToClassTable";
 import { IStudentResponse } from "../../../models/StudentsResponses";
-import { useStudent } from "../../../hooks/useStudent";
-import { useClass } from "../../../hooks/useClass";
+
 import { useDisplay, DisplayType } from "../../../hooks/useDisplay";
 import { toast } from "react-toastify";
 
 interface IAddStudentsModalProps {
-  classId: number;
+  title: string;
   isOpen: boolean;
+  availableStudents: IStudentResponse[];
+  messageType: string;
   onClose: () => void;
-  classStudentIds: string[]; // Array of student IDs in the specific class
+  onConfirm: (ids: string[]) => void;
 }
 
 const AddStudentsToClassModal = ({
+  title,
   isOpen,
   onClose,
-  classStudentIds,
-  classId,
+  onConfirm,
+  availableStudents,
+  messageType,
 }: IAddStudentsModalProps) => {
-  const { getAllStudents } = useStudent();
-  const { studentsState } = useStudentContext();
-  const { addStudentsToClass } = useClass();
   const { displayManager } = useDisplay();
-  const [availableStudents, setAvailableStudents] = useState<
-    IStudentResponse[]
-  >([]);
+
   const [chosenStudentsIds, setChosenStudentsIds] = useState<string[]>([]);
 
   const onSelect = (studentId: string) => {
@@ -37,44 +35,24 @@ const AddStudentsToClassModal = ({
     );
   };
 
-  const onConfirm = async () => {
+  const handleConfirm = async () => {
     displayManager(DisplayType.START_LOADING);
     try {
-      await addStudentsToClass(classId, chosenStudentsIds);
-      toast.success("Students were added!");
+      await onConfirm(chosenStudentsIds);
+      toast.success(`${messageType} were added!`);
       onClose();
     } catch (error) {
       console.log(error);
-      toast.error("Students weren't added!");
+      toast.error(`${messageType} weren't added!`);
     } finally {
       displayManager(DisplayType.STOP_LOADING);
     }
   };
 
-  const getAllStudentsAsync = async () => {
-    try {
-      await getAllStudents();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (studentsState.students.length === 0) {
-      getAllStudentsAsync();
-    } else {
-      // Filter available students whenever studentsState or classStudentIds change
-      const filteredStudents = studentsState.students.filter(
-        (student) => !classStudentIds.includes(student.studentId)
-      );
-      setAvailableStudents(filteredStudents);
-    }
-  }, [studentsState.students, classStudentIds]);
-
   return isOpen ? (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-11/12 p-6">
-        <h2 className="text-lg text-center font-semibold mb-4">Add Students</h2>
+        <h2 className="text-lg text-center font-semibold mb-4">{title}</h2>
         <AddStudentsToClassTable
           students={availableStudents}
           chosenStudentsIds={chosenStudentsIds}
@@ -89,7 +67,7 @@ const AddStudentsToClassModal = ({
           </button>
           <button
             className="bg-green-600 text-white px-4 py-2 rounded"
-            onClick={onConfirm}
+            onClick={handleConfirm}
           >
             Add
           </button>
