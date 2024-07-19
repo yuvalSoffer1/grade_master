@@ -2,6 +2,10 @@ import { dotnetApi } from "../api/apiConfig";
 import { useClassContext } from "../context/ClassContext";
 import { CreateAttendancesReportPayload } from "../models/AttendancePayloads";
 import {
+  IGetAttendancesReportResponse,
+  IStudentAttendances,
+} from "../models/AttendanceResponses";
+import {
   AddStudentsToClassPayload,
   CreateClassPayload,
 } from "../models/ClassPayloads";
@@ -34,6 +38,7 @@ export const useClass = () => {
       throw new Error(err);
     }
   };
+
   const getStudentsByClassId = async (classId: number) => {
     try {
       const res = await dotnetApi.get(`classes/${classId}/class-students`);
@@ -80,7 +85,6 @@ export const useClass = () => {
       throw new Error(err);
     }
   };
-  //"{classId:int}/attendances")
 
   const createAttendanceReport = async (
     classId: number,
@@ -98,9 +102,9 @@ export const useClass = () => {
     }
   };
 
-  /* const deleteClass = async (classId: number) => {
+  const deleteClass = async (classId: number) => {
     try {
-      await dotnetApi.delete(`classes/add/${classId}`);
+      await dotnetApi.delete(`classes/${classId}`);
 
       classDispatch({
         type: "DELETE_SUCCESS",
@@ -111,7 +115,20 @@ export const useClass = () => {
 
       throw new Error(err);
     }
-  };*/
+  };
+
+  const getAttendancesReport = async (classId: number) => {
+    try {
+      const res = await dotnetApi.get(`classes/${classId}/attendances-report`);
+      const report: IStudentAttendances[] = res.data;
+      return report;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+
   return {
     getAllClasses,
     createClass,
@@ -119,5 +136,7 @@ export const useClass = () => {
     addStudentsToClass,
     removeStudentFromClass,
     createAttendanceReport,
+    deleteClass,
+    getAttendancesReport,
   };
 };

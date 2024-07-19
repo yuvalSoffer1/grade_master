@@ -5,6 +5,7 @@ import { addClassValidationRules } from "../../../../utils/validationRules";
 import GenericForm from "../../../../components/ui/cards/GenericForm";
 import { CreateClassPayload } from "../../../../models/ClassPayloads";
 import { useDisplay, DisplayType } from "../../../../hooks/useDisplay";
+import { useClassContext } from "../../../../context/ClassContext";
 
 interface IAddClassCardProps {
   setSelectedDisplay: (value: string) => void;
@@ -12,11 +13,22 @@ interface IAddClassCardProps {
 
 const AddClassCard = ({ setSelectedDisplay }: IAddClassCardProps) => {
   const { createClass } = useClass();
+  const { classesState } = useClassContext();
   const { displayManager } = useDisplay();
 
   const onSubmit: SubmitHandler<CreateClassPayload> = async (data) => {
     displayManager(DisplayType.START_LOADING);
     try {
+      const classExists = classesState.classes.some(
+        (c) =>
+          c.className == data.className.toUpperCase() &&
+          c.groupId == data.groupId
+      );
+
+      if (classExists) {
+        toast.error("A class with the same name and group ID already exists.");
+        return;
+      }
       await createClass(data);
       toast.success("Class was created");
       setSelectedDisplay("");

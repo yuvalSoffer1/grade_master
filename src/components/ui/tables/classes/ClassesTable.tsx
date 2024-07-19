@@ -1,6 +1,7 @@
 import GenericTable from "../GenericTable";
 import { IGetClassesResponse } from "../../../../models/ClassResponses";
 import { useNavigate } from "react-router-dom";
+import { useClass } from "../../../../hooks/useClass";
 
 const ClassesTable = ({
   classes,
@@ -15,11 +16,13 @@ const ClassesTable = ({
     { header: "Amount of Students", accessor: "amountOfStudents" },
   ];
 
+  const { deleteClass } = useClass();
+
   const navigate = useNavigate();
 
   const handleDeleteClass = async (id: string | number) => {
     if (typeof id === "number") {
-      await console.log(id);
+      await deleteClass(id);
     } else {
       console.error("Expected number ID, but got string");
     }

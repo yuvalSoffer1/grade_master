@@ -13,10 +13,20 @@ import {
   CreateAttendancePayload,
   CreateAttendancesReportPayload,
 } from "../models/AttendancePayloads";
+import {
+  IGetAttendancesReportResponse,
+  IStudentAttendances,
+} from "../models/AttendanceResponses";
+import AttendancesTable from "../components/ui/tables/classes/AttendancesTable";
 
 const ChosenClass = () => {
   const { classId } = useParams();
-  const { addStudentsToClass, createAttendanceReport } = useClass();
+  const { addStudentsToClass, createAttendanceReport, getAttendancesReport } =
+    useClass();
+  const [attendancesReport, setAttendancesReport] = useState<
+    IStudentAttendances[]
+  >([]);
+  const [isAttendanceTableOpen, setIsAttendanceTableOpen] = useState(false);
   const { classesState } = useClassContext();
   const { studentsState } = useStudentContext();
   const { getAllStudents } = useStudent();
@@ -44,6 +54,16 @@ const ChosenClass = () => {
 
   const onAddStudents = async (studentsIds: string[]) => {
     if (id) await addStudentsToClass(id, studentsIds);
+    return;
+  };
+
+  const onGetReport = async () => {
+    if (id) {
+      const result = await getAttendancesReport(id);
+      setAttendancesReport(result);
+
+      setIsAttendanceTableOpen(true);
+    }
     return;
   };
 
@@ -82,15 +102,17 @@ const ChosenClass = () => {
 
   return (
     <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
-      <h2 className="text-2xl font-bold mb-6 text-center">
-        {`${selectedClass?.className} ${selectedClass?.groupId}`}
-      </h2>
-      <StyledButton
-        buttonType="button"
-        text="Create Attendance Report"
-        onClickButton={() => setIsReportOpen(true)}
-        width="20%"
-      />
+      <div className=" flex flex-row justify-between items-center">
+        <h2 className="text-2xl font-bold text-center">
+          {`${selectedClass?.className} ${selectedClass?.groupId}`}
+        </h2>
+        <StyledButton
+          buttonType="button"
+          text="Create Attendance Report"
+          onClickButton={() => setIsReportOpen(true)}
+          width="54%"
+        />
+      </div>
       <h3 className="text-xl font-bold mt-4 text-center">Students List</h3>
 
       {selectedClass?.students && selectedClass.students.length > 0 ? (
@@ -108,6 +130,15 @@ const ChosenClass = () => {
         onClickButton={onClickAdd}
         width="16.67%"
       />
+      <StyledButton
+        buttonType="button"
+        text="Attendances Report"
+        onClickButton={onGetReport}
+        width="16.67%"
+      />
+      {isAttendanceTableOpen && attendancesReport !== undefined && (
+        <AttendancesTable report={attendancesReport} isEditable={false} />
+      )}
       {isOpen && id && (
         <AddStudentsToClassModal
           title="Add Students"
