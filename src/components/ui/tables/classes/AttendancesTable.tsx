@@ -1,14 +1,11 @@
-import { IStudentAttendances } from "../../../../models/AttendanceResponses";
+import { IStudentAttendancesResponse } from "../../../../models/AttendanceResponses";
+import { formatDate } from "../../../../utils/dateUtils";
 
-const AttendancesTable = ({ report }: { report: IStudentAttendances[] }) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const day = String(date.getDate()).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${month}-${day}-${year}`;
-  };
-
+const AttendancesTable = ({
+  report,
+}: {
+  report: IStudentAttendancesResponse[];
+}) => {
   return (
     <div className="overflow-y-auto overflow-x-auto">
       <table className="min-w-full bg-white border-collapse">
@@ -23,6 +20,7 @@ const AttendancesTable = ({ report }: { report: IStudentAttendances[] }) => {
               </th>
             ))}
             <th className="px-4 py-2 border">Total Attendances</th>
+            <th className="px-4 py-2 border">Total Lectures</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +42,9 @@ const AttendancesTable = ({ report }: { report: IStudentAttendances[] }) => {
               ))}
               <td className="px-4 py-2 text-center border">
                 {student.totalAttendances}
+              </td>
+              <td className="px-4 py-2 text-center border">
+                {student.totalLectures}
               </td>
             </tr>
           ))}

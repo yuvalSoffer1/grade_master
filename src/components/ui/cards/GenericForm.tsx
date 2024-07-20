@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler, FieldValues, Path } from "react-hook-form";
-import StyledButton from "../../ui/StyledButton";
+import StyledButton from "../buttons/StyledButton";
 
 interface InputField {
   name: string;

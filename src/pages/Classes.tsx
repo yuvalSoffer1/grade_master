@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import ClassesTable from "../components/ui/tables/classes/ClassesTable";
 
-import StyledButton from "../components/ui/StyledButton";
-import { exportToCSV } from "../utils/exportToCsv";
+import StyledButton from "../components/ui/buttons/StyledButton";
+
 import { useClass } from "../hooks/useClass";
 import { useClassContext } from "../context/ClassContext";
 import AddClassCard from "../components/ui/cards/classes/AddClassCard";
@@ -14,9 +14,6 @@ const Classes = () => {
   const [selectedDisplay, setSelectedDisplay] = useState("");
   const { classesState } = useClassContext();
   const { classes } = classesState;
-  const handleExport = () => {
-    exportToCSV(classes, "classes.csv");
-  };
 
   const getAllClassesAsync = async () => {
     try {
@@ -40,15 +37,10 @@ const Classes = () => {
 
   return (
     <div className=" flex flex-col items-center text-center">
+      <h2 className="text-2xl font-bold mb-3 text-center">Classes</h2>
       {selectedDisplay === "" && (
         <>
-          <StyledButton
-            buttonType="button"
-            text="Export To Csv"
-            onClickButton={handleExport}
-            extraColor="green"
-            width="15%"
-          />
+          <h3 className="text-xl mb-3 text-center">My Classes</h3>
           <ClassesTable classes={classes} isEditable={true} />
           <StyledButton
             buttonType="button"

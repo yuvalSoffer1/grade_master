@@ -3,7 +3,7 @@ import { useClassContext } from "../context/ClassContext";
 import { CreateAttendancesReportPayload } from "../models/AttendancePayloads";
 import {
   IGetAttendancesReportResponse,
-  IStudentAttendances,
+  IStudentAttendancesResponse,
 } from "../models/AttendanceResponses";
 import {
   AddStudentsToClassPayload,
@@ -120,7 +120,7 @@ export const useClass = () => {
   const getAttendancesReport = async (classId: number) => {
     try {
       const res = await dotnetApi.get(`classes/${classId}/attendances-report`);
-      const report: IStudentAttendances[] = res.data;
+      const report: IStudentAttendancesResponse[] = res.data;
       return report;
     } catch (error: unknown) {
       const err = axiosErrorExtractor(error);

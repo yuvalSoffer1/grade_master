@@ -4,9 +4,10 @@ import StudentsTable from "../components/ui/tables/students/StudentsTable";
 import AddStudentCard from "../components/ui/cards/students/AddStudentCard";
 import AddStudentsFromCsv from "../components/ui/csvs/AddStudentsFromCsv";
 import { useStudentContext } from "../context/StudentContext";
-import StyledButton from "../components/ui/StyledButton";
+import StyledButton from "../components/ui/buttons/StyledButton";
 import { IStudentTable } from "../models/TableModels";
 import { exportToCSV } from "../utils/exportToCsv";
+import ExportToCsvButton from "../components/ui/buttons/ExportToCsvButton";
 
 const Students = () => {
   const { getAllStudents } = useStudent();
@@ -36,15 +37,10 @@ const Students = () => {
 
   return (
     <div className=" flex flex-col items-center text-center">
+      <h2 className="text-2xl font-bold mb-3 text-center">Students</h2>
       {selectedDisplay === "" && (
         <>
-          <StyledButton
-            buttonType="button"
-            text="Export To Csv"
-            onClickButton={handleExport}
-            extraColor="green"
-            width="15%"
-          />
+          <ExportToCsvButton onExport={handleExport} />
           <StudentsTable
             students={students as IStudentTable[]}
             isEditable={true}

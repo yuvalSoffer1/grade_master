@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { useClassContext } from "../context/ClassContext";
 import StudentsTable from "../components/ui/tables/students/StudentsTable";
 import { IStudentTable } from "../models/TableModels";
-import StyledButton from "../components/ui/StyledButton";
+import StyledButton from "../components/ui/buttons/StyledButton";
 import { useEffect, useState } from "react";
-import AddStudentsToClassModal from "../components/ui/modals/AddStudentsToClassModal";
+import StudentsAtClassModal from "../components/ui/modals/StudentsAtClassModal";
 import { useStudentContext } from "../context/StudentContext";
 import { IStudentResponse } from "../models/StudentsResponses";
 import { useStudent } from "../hooks/useStudent";
@@ -13,20 +13,20 @@ import {
   CreateAttendancePayload,
   CreateAttendancesReportPayload,
 } from "../models/AttendancePayloads";
-import {
-  IGetAttendancesReportResponse,
-  IStudentAttendances,
-} from "../models/AttendanceResponses";
+import { IStudentAttendancesResponse } from "../models/AttendanceResponses";
 import AttendancesTable from "../components/ui/tables/classes/AttendancesTable";
+import { exportToCSV } from "../utils/exportToCsv";
+import { IconFileDownload, IconFileTypeCsv } from "@tabler/icons-react";
+import ExportToCsvButton from "../components/ui/buttons/ExportToCsvButton";
 
 const ChosenClass = () => {
   const { classId } = useParams();
   const { addStudentsToClass, createAttendanceReport, getAttendancesReport } =
     useClass();
   const [attendancesReport, setAttendancesReport] = useState<
-    IStudentAttendances[]
+    IStudentAttendancesResponse[]
   >([]);
-  const [isAttendanceTableOpen, setIsAttendanceTableOpen] = useState(false);
+
   const { classesState } = useClassContext();
   const { studentsState } = useStudentContext();
   const { getAllStudents } = useStudent();
@@ -35,7 +35,7 @@ const ChosenClass = () => {
   >([]);
   const [currentDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
-  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [tableType, setTableType] = useState("");
   const id = classId ? parseInt(classId) : undefined;
 
   const selectedClass = classId
@@ -49,6 +49,7 @@ const ChosenClass = () => {
       (student) => !classStudentIds.includes(student.studentId)
     );
     setAvailableStudents(filteredStudents);
+    setTableType("STUDENTS");
     setIsOpen(true);
   };
 
@@ -61,8 +62,20 @@ const ChosenClass = () => {
     if (id) {
       const result = await getAttendancesReport(id);
       setAttendancesReport(result);
+      setIsOpen(true);
+      setTableType("ATT");
+    }
+    return;
+  };
 
-      setIsAttendanceTableOpen(true);
+  const handleExport = () => {
+    if (selectedClass?.students && selectedClass.students.length > 0) {
+      exportToCSV(
+        selectedClass.students,
+        `${selectedClass?.className.toLowerCase()}_${
+          selectedClass?.groupId
+        }_students.csv`
+      );
     }
     return;
   };
@@ -104,17 +117,22 @@ const ChosenClass = () => {
     <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
       <div className=" flex flex-row justify-between items-center">
         <h2 className="text-2xl font-bold text-center">
-          {`${selectedClass?.className} ${selectedClass?.groupId}`}
+          {`${selectedClass?.className}${selectedClass?.groupId}`}
         </h2>
         <StyledButton
           buttonType="button"
           text="Create Attendance Report"
-          onClickButton={() => setIsReportOpen(true)}
+          onClickButton={() => {
+            setTableType("CREATE");
+            setIsOpen(true);
+          }}
           width="54%"
         />
       </div>
-      <h3 className="text-xl font-bold mt-4 text-center">Students List</h3>
-
+      <div className=" flex flex-row justify-between items-center mt-4">
+        <h3 className="text-xl font-bold text-center">Students List</h3>
+        <ExportToCsvButton onExport={handleExport} />
+      </div>
       {selectedClass?.students && selectedClass.students.length > 0 ? (
         <StudentsTable
           students={selectedClass.students as IStudentTable[]}
@@ -124,39 +142,48 @@ const ChosenClass = () => {
       ) : (
         <p>There are no students in the class</p>
       )}
-      <StyledButton
-        buttonType="button"
-        text="Add Students"
-        onClickButton={onClickAdd}
-        width="16.67%"
-      />
-      <StyledButton
-        buttonType="button"
-        text="Attendances Report"
-        onClickButton={onGetReport}
-        width="16.67%"
-      />
-      {isAttendanceTableOpen && attendancesReport !== undefined && (
-        <AttendancesTable report={attendancesReport} isEditable={false} />
+      <div className="flex flex-row justify-between">
+        <StyledButton
+          buttonType="button"
+          text="Add Students"
+          onClickButton={onClickAdd}
+          width="45%"
+        />
+        <StyledButton
+          buttonType="button"
+          text="Attendances Report"
+          onClickButton={onGetReport}
+          width="45%"
+        />
+      </div>
+      {isOpen && attendancesReport !== undefined && tableType === "ATT" && (
+        <StudentsAtClassModal
+          title={`Attendances Report ${selectedClass?.className} ${selectedClass?.groupId}`}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onConfirm={() => setIsOpen(false)}
+          messageType="Reports"
+          availableData={attendancesReport}
+        />
       )}
-      {isOpen && id && (
-        <AddStudentsToClassModal
+      {isOpen && tableType === "STUDENTS" && (
+        <StudentsAtClassModal
           title="Add Students"
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           onConfirm={onAddStudents}
           messageType="Students"
-          availableStudents={availableStudents}
+          availableData={availableStudents}
         />
       )}
-      {isReportOpen && selectedClass?.students && (
-        <AddStudentsToClassModal
+      {isOpen && selectedClass?.students && tableType === "CREATE" && (
+        <StudentsAtClassModal
           title={`Attendance Report: ${currentDate.toLocaleDateString()}`}
-          isOpen={isReportOpen}
-          onClose={() => setIsReportOpen(false)}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
           onConfirm={onCreateReport}
           messageType="Attendance Report"
-          availableStudents={selectedClass?.students}
+          availableData={selectedClass?.students}
         />
       )}
     </div>
