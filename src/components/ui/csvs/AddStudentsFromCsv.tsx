@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import StudentsTable from "../tables/students/StudentsTable";
-import StyledButton from "../StyledButton";
+import StyledButton from "../buttons/StyledButton";
 import { IStudentTable } from "../../../models/TableModels";
 import { CreateStudentPayload } from "../../../models/StudentsPayloads";
 import { useStudent } from "../../../hooks/useStudent";

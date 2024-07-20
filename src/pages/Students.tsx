@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStudent } from "../hooks/useStudent";
 import StudentsTable from "../components/ui/tables/students/StudentsTable";
 import AddStudentCard from "../components/ui/cards/students/AddStudentCard";
 import AddStudentsFromCsv from "../components/ui/csvs/AddStudentsFromCsv";
 import { useStudentContext } from "../context/StudentContext";
-import StyledButton from "../components/ui/StyledButton";
-import { IStudentResponse } from "../models/StudentsResponses";
+import StyledButton from "../components/ui/buttons/StyledButton";
 import { IStudentTable } from "../models/TableModels";
 import { exportToCSV } from "../utils/exportToCsv";
+import ExportToCsvButton from "../components/ui/buttons/ExportToCsvButton";
 
 const Students = () => {
   const { getAllStudents } = useStudent();
@@ -18,8 +18,6 @@ const Students = () => {
   const handleExport = () => {
     exportToCSV(students, "students.csv");
   };
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const getAllStudentsAsync = async () => {
     try {
@@ -39,15 +37,10 @@ const Students = () => {
 
   return (
     <div className=" flex flex-col items-center text-center">
+      <h2 className="text-2xl font-bold mb-3 text-center">Students</h2>
       {selectedDisplay === "" && (
         <>
-          <StyledButton
-            buttonType="button"
-            text="Export To Csv"
-            onClickButton={handleExport}
-            extraColor="green"
-            width="15%"
-          />
+          <ExportToCsvButton onExport={handleExport} />
           <StudentsTable
             students={students as IStudentTable[]}
             isEditable={true}
@@ -77,10 +70,7 @@ const Students = () => {
         </>
       )}
       {selectedDisplay === "Manually" && (
-        <AddStudentCard
-          setIsLoading={setIsLoading}
-          setSelectedDisplay={setSelectedDisplay}
-        />
+        <AddStudentCard setSelectedDisplay={setSelectedDisplay} />
       )}
       {selectedDisplay === "CSV" && (
         <AddStudentsFromCsv setSelectedDisplay={setSelectedDisplay} />

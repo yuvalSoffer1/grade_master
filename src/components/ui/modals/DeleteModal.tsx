@@ -3,9 +3,10 @@ import { useDisplayContext } from "../../../context/DisplayContext";
 interface IDeleteModalProps {
   onConfirm: () => void;
   onClose: () => void;
+  itemName?: string;
 }
 
-const DeleteModal = ({ onConfirm, onClose }: IDeleteModalProps) => {
+const DeleteModal = ({ onConfirm, onClose, itemName }: IDeleteModalProps) => {
   const { displayState } = useDisplayContext();
 
   return displayState.showModal ? (
@@ -13,7 +14,7 @@ const DeleteModal = ({ onConfirm, onClose }: IDeleteModalProps) => {
       <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
         <h2 className="text-lg font-semibold mb-4">Confirm Deletion</h2>
         <p className="mb-6">
-          Are you sure you want to delete this item? This action cannot be
+          Are you sure you want to delete this {itemName}? This action cannot be
           undone.
         </p>
         <div className="flex justify-end">

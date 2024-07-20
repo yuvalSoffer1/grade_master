@@ -1,176 +1,70 @@
-import { useForm } from "react-hook-form";
-import { CreateStudentPayload } from "../../../../models/StudentsPayloads";
-import { useStudent } from "../../../../hooks/useStudent";
 import { toast } from "react-toastify";
+import { useStudent } from "../../../../hooks/useStudent";
+import { addStudentValidationRules } from "../../../../utils/validationRules";
+import GenericForm from "../../../../components/ui/cards/GenericForm";
+import { CreateStudentPayload } from "../../../../models/StudentsPayloads";
+import { useDisplay, DisplayType } from "../../../../hooks/useDisplay";
 
 interface IAddStudentCardProps {
-  setIsLoading: (value: boolean) => void;
   setSelectedDisplay: (value: string) => void;
 }
 
-const AddStudentCard = ({
-  setIsLoading,
-  setSelectedDisplay,
-}: IAddStudentCardProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateStudentPayload>();
-
+const AddStudentCard = ({ setSelectedDisplay }: IAddStudentCardProps) => {
   const { createStudent } = useStudent();
 
+  const { displayManager } = useDisplay();
+
   const onSubmit = async (data: CreateStudentPayload) => {
-    setIsLoading(true);
+    displayManager(DisplayType.START_LOADING);
     try {
       await createStudent(data);
-
       toast.success("Student was created");
       setSelectedDisplay("");
     } catch (error) {
       toast.error("Student wasn't created!");
     } finally {
-      setIsLoading(false);
+      displayManager(DisplayType.STOP_LOADING);
     }
   };
 
-  const validationRules = {
-    studentId: {
-      required: "Student ID is required",
-      pattern: {
-        value: /^[0-9]{6}$/,
-        message: "Student ID must be a numeric string of 6 digits",
-      },
+  const fields = [
+    {
+      name: "studentId",
+      type: "text",
+      placeholder: "123456",
+      validation: addStudentValidationRules.studentId,
     },
-    firstName: {
-      required: "First Name is required",
+    {
+      name: "firstName",
+      type: "text",
+      placeholder: "First Name",
+      validation: addStudentValidationRules.firstName,
     },
-    lastName: {
-      required: "Last Name is required",
+    {
+      name: "lastName",
+      type: "text",
+      placeholder: "Last Name",
+      validation: addStudentValidationRules.lastName,
     },
-    prefixPhoneNumber: {
-      pattern: {
-        value: /^0\d{1,2}$/,
-        message:
-          "Prefix must be numeric, start with 0, and be 2 to 3 digits long",
-      },
+    {
+      name: "prefixPhoneNumber",
+      type: "text",
+      placeholder: "052",
+      validation: addStudentValidationRules.prefixPhoneNumber,
     },
-    phoneNumber: {
-      pattern: {
-        value: /^\d{7}$/,
-        message: "Phone number must be exactly 7 digits",
-      },
+    {
+      name: "phoneNumber",
+      type: "text",
+      placeholder: "3456789",
+      validation: addStudentValidationRules.phoneNumber,
     },
-  };
+  ];
 
   return (
     <div className="flex items-center justify-center text-left w-2/3 ">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md border border-gray-400 ">
         <h2 className="text-2xl font-bold mb-3 text-center">Add Student</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-3">
-            <label
-              htmlFor="studentId"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Student ID
-            </label>
-            <input
-              type="text"
-              id="studentId"
-              placeholder="123456"
-              {...register("studentId", validationRules.studentId)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {errors.studentId && (
-              <span className="text-red-600">{errors.studentId.message}</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              placeholder="First Name"
-              {...register("firstName", validationRules.firstName)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {errors.firstName && (
-              <span className="text-red-600">{errors.firstName.message}</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              placeholder="Last Name"
-              {...register("lastName", validationRules.lastName)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {errors.lastName && (
-              <span className="text-red-600">{errors.lastName.message}</span>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label
-              htmlFor="prefix"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Prefix Phone Number
-            </label>
-            <input
-              type="text"
-              id="prefix"
-              placeholder="052"
-              {...register(
-                "prefixPhoneNumber",
-                validationRules.prefixPhoneNumber
-              )}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {errors.prefixPhoneNumber && (
-              <span className="text-red-600">
-                {errors.prefixPhoneNumber.message}
-              </span>
-            )}
-          </div>
-          <div className="mb-3">
-            <label
-              htmlFor="phoneNumber"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Phone Number
-            </label>
-            <input
-              type="text"
-              id="phoneNumber"
-              placeholder="3456789"
-              {...register("phoneNumber", validationRules.phoneNumber)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {errors.phoneNumber && (
-              <span className="text-red-600">{errors.phoneNumber.message}</span>
-            )}
-          </div>
-          <button
-            type="submit"
-            className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Add
-          </button>
-        </form>
+        <GenericForm fields={fields} onSubmit={onSubmit} buttonText="Add" />
       </div>
     </div>
   );

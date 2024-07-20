@@ -1,78 +1,57 @@
-import { useState } from "react";
-import { useDisplayContext } from "../../../../context/DisplayContext";
-
-import { useStudent } from "../../../../hooks/useStudent";
-import DeleteModal from "../../modals/DeleteModal";
-import StudentsTableRow from "./StudentsTableRow";
-import { toast } from "react-toastify";
-import { useDisplay } from "../../../../hooks/useDisplay";
-import { DisplayType } from "../../../../models/DisplayType";
 import { IStudentTable } from "../../../../models/TableModels";
+import { useStudent } from "../../../../hooks/useStudent";
+import GenericTable from "../GenericTable";
+import { useClass } from "../../../../hooks/useClass";
 
-interface IStudentsTableProps {
+const StudentsTable = ({
+  students,
+  isEditable,
+  classId,
+}: {
   students: IStudentTable[];
   isEditable: boolean;
-}
-
-const StudentsTable = ({ students, isEditable }: IStudentsTableProps) => {
-  const [idToDelete, setIdToDelete] = useState("");
+  classId?: number;
+}) => {
   const { deleteStudent } = useStudent();
-  const { displayState } = useDisplayContext();
-  const { displayManager } = useDisplay();
+  const { removeStudentFromClass } = useClass();
 
-  const onDeleteStudent = async () => {
-    try {
-      await deleteStudent(idToDelete);
-      toast.success("Student wasn deleted");
-      displayManager(DisplayType.CLOSE_MODAL);
-    } catch (error) {
-      console.log(error);
-      toast.error("Student wasn't deleted!");
+  const columns: { header: string; accessor: keyof IStudentTable }[] = [
+    { header: "Student ID", accessor: "studentId" },
+    { header: "First Name", accessor: "firstName" },
+    { header: "Last Name", accessor: "lastName" },
+    { header: "Phone Number", accessor: "phoneNumber" },
+  ];
+
+  const handleDeleteStudent = async (id: string | number) => {
+    if (typeof id === "string") {
+      await deleteStudent(id);
+    } else {
+      console.error("Expected string ID, but got number");
     }
   };
-  const onCloseModal = () => {
-    setIdToDelete("");
-    displayManager(DisplayType.CLOSE_MODAL);
+
+  const handleRemoveStudentFromClass = async (id: string | number) => {
+    if (typeof id === "string") {
+      if (classId) await removeStudentFromClass(classId, id);
+      else {
+        console.error("Expected Class ID, but got nothing");
+      }
+    } else {
+      console.error("Expected string ID, but got number");
+    }
   };
 
-  return students.length > 0 ? (
-    <div className="overflow-y-auto">
-      <table className="min-w-full bg-white border-collapse">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border">Student ID</th>
-            <th className="px-4 py-2 border">First Name</th>
-            <th className="px-4 py-2 border">Last Name</th>
-            {!isEditable && (
-              <th className="px-4 py-2 border">Prefix Phone Number</th>
-            )}
-            <th className="px-4 py-2 border">Phone Number</th>
-            {isEditable && <th className="px-4 py-2 border">Delete</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {students
-            .sort((a, b) => Number(a.studentId) - Number(b.studentId))
-            .map((student) => (
-              <StudentsTableRow
-                key={student.studentId}
-                student={student}
-                setIdToDelete={setIdToDelete}
-                isEditable={isEditable}
-              />
-            ))}
-        </tbody>
-      </table>
-      {displayState.showModal && (
-        <DeleteModal onConfirm={onDeleteStudent} onClose={onCloseModal} />
-      )}
-    </div>
-  ) : (
-    isEditable && (
-      <h2 className="text-2xl font-bold mt-6 text-center">
-        There Are No Students
-      </h2>
-    )
+  return (
+    <GenericTable<IStudentTable>
+      data={students}
+      columns={columns}
+      isEditable={isEditable}
+      deleteHandler={
+        classId ? handleRemoveStudentFromClass : handleDeleteStudent
+      }
+      idAccessor="studentId"
+      itemName={classId ? "Student From this class " : "Student"}
+    />
   );
 };
 

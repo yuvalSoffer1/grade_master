@@ -1,13 +1,19 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
 
-type DisplayAction = { type: "SHOW_MODAL" } | { type: "CLOSE_MODAL" };
+type DisplayAction =
+  | { type: "SHOW_MODAL" }
+  | { type: "CLOSE_MODAL" }
+  | { type: "START_LOADING" }
+  | { type: "STOP_LOADING" };
 
 interface DisplayState {
   showModal: boolean;
+  isLoading: boolean;
 }
 
 const initialState: DisplayState = {
   showModal: false,
+  isLoading: false,
 };
 
 const DisplayContext = createContext<
@@ -24,9 +30,13 @@ const displayReducer = (
 ): DisplayState => {
   switch (action.type) {
     case "SHOW_MODAL":
-      return { showModal: true };
+      return { ...state, showModal: true };
     case "CLOSE_MODAL":
-      return { showModal: false };
+      return { ...state, showModal: false };
+    case "START_LOADING":
+      return { ...state, isLoading: true };
+    case "STOP_LOADING":
+      return { ...state, isLoading: false };
     default:
       return state;
   }
