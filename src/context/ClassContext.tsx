@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useContext, Dispatch } from "react";
 
 import { IGetClassesResponse } from "../models/ClassResponses";
 import { IStudentResponse } from "../models/StudentsResponses";
+import { IGradeItemResponse } from "../models/GradeItemsResponses";
 
 type ClassAction =
   | { type: "GET_ALL_SUCCESS"; payload: IGetClassesResponse[] }
@@ -14,6 +15,14 @@ type ClassAction =
   | {
       type: "REMOVE_STUDENT_SUCCESS";
       payload: { classId: number; studentId: string };
+    }
+  | {
+      type: "ADD_GRADE_ITEM_SUCCESS";
+      payload: { classId: number; gradeItem: IGradeItemResponse };
+    }
+  | {
+      type: "REMOVE_GRADE_ITEM_SUCCESS";
+      payload: { classId: number; gradeItemId: number };
     };
 
 interface ClassState {
@@ -71,6 +80,31 @@ const classReducer = (state: ClassState, action: ClassAction): ClassState => {
                 ...c,
                 students: (c.students ?? []).filter(
                   (s) => s.studentId !== studentId
+                ),
+              }
+            : c
+        ),
+      };
+    }
+    case "ADD_GRADE_ITEM_SUCCESS": {
+      const { classId, gradeItem } = action.payload;
+      return {
+        classes: state.classes.map((c) =>
+          c.classId === classId
+            ? { ...c, gradeItems: [...(c.gradeItems ?? []), gradeItem] }
+            : c
+        ),
+      };
+    }
+    case "REMOVE_GRADE_ITEM_SUCCESS": {
+      const { classId, gradeItemId } = action.payload;
+      return {
+        classes: state.classes.map((c) =>
+          c.classId === classId
+            ? {
+                ...c,
+                gradeItems: (c.gradeItems ?? []).filter(
+                  (gi) => gi.gradeItemId !== gradeItemId
                 ),
               }
             : c

@@ -1,3 +1,4 @@
+import { IGradeItemResponse } from "./GradeItemsResponses";
 import { IStudentResponse } from "./StudentsResponses";
 
 export interface IGetClassesResponse {
@@ -6,4 +7,5 @@ export interface IGetClassesResponse {
   groupId: number;
   amountOfStudents: number;
   students: IStudentResponse[] | null;
+  gradeItems: IGradeItemResponse[] | null;
 }

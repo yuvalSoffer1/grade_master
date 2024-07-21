@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import { useDisplayContext } from "./context/DisplayContext";
 import LoadingOverlay from "./components/ui/LoadingOverlay";
 import ChosenClass from "./pages/ChosenClass";
+import ClassSettings from "./pages/ClassSettings";
 
 const protectedRoutes = [
   { path: "/home", element: <Home /> },
@@ -21,6 +22,7 @@ const protectedRoutes = [
   { path: "/students", element: <Students /> },
   { path: "/grades", element: <Grades /> },
   { path: "/settings", element: <Settings /> },
+  { path: "/settings/:classId", element: <ClassSettings /> },
 ];
 
 function App() {

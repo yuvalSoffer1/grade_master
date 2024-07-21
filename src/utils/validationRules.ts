@@ -81,3 +81,20 @@ export const addStudentValidationRules = {
     },
   },
 };
+
+export const addGradeItemValidationRules = {
+  name: {
+    required: "Name is required",
+  },
+  weight: {
+    required: "Weight is required",
+    min: {
+      value: 1,
+      message: "Weight must be at least 1",
+    },
+    max: {
+      value: 100,
+      message: "Weight must be at most 100",
+    },
+  },
+};

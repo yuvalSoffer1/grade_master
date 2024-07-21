@@ -10,6 +10,11 @@ import {
   CreateClassPayload,
 } from "../models/ClassPayloads";
 import { IGetClassesResponse } from "../models/ClassResponses";
+import {
+  CreateGradeItemPayload,
+  UpdateGradeItemsPayload,
+} from "../models/GradeItemsPayloads";
+import { IGradeItemResponse } from "../models/GradeItemsResponses";
 import { IStudentResponse } from "../models/StudentsResponses";
 import { axiosErrorExtractor } from "../utils/axiosErrorUtils";
 
@@ -129,6 +134,53 @@ export const useClass = () => {
     }
   };
 
+  const createGradeItem = async (
+    classId: number,
+    gradeItem: CreateGradeItemPayload
+  ) => {
+    try {
+      const res = await dotnetApi.post(
+        `classes/${classId}/grade-items`,
+        gradeItem
+      );
+      const data: IGradeItemResponse = res.data;
+      classDispatch({
+        type: "ADD_GRADE_ITEM_SUCCESS",
+        payload: { classId, gradeItem: data },
+      });
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+  const updateGradeItems = async (
+    classId: number,
+    gradeItems: UpdateGradeItemsPayload
+  ) => {
+    try {
+      await dotnetApi.put(`classes/${classId}/grade-items`, gradeItems);
+      return;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+  const deleteGradeItem = async (gradeItemId: number, classId: number) => {
+    try {
+      await dotnetApi.delete(`classes/grade-items/${gradeItemId}`);
+      classDispatch({
+        type: "REMOVE_GRADE_ITEM_SUCCESS",
+        payload: { classId, gradeItemId },
+      });
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+
   return {
     getAllClasses,
     createClass,
@@ -138,5 +190,8 @@ export const useClass = () => {
     createAttendanceReport,
     deleteClass,
     getAttendancesReport,
+    createGradeItem,
+    deleteGradeItem,
+    updateGradeItems,
   };
 };

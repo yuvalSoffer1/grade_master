@@ -6,9 +6,11 @@ import { useClass } from "../../../../hooks/useClass";
 const ClassesTable = ({
   classes,
   isEditable,
+  toClass,
 }: {
   classes: IGetClassesResponse[];
   isEditable: boolean;
+  toClass: boolean;
 }) => {
   const columns: { header: string; accessor: keyof IGetClassesResponse }[] = [
     { header: "Class Name", accessor: "className" },
@@ -27,13 +29,17 @@ const ClassesTable = ({
       console.error("Expected number ID, but got string");
     }
   };
+  const navigateHandler = (classId: number) => {
+    if (toClass) navigate(`/classes/${classId}`);
+    navigate(`/settings/${classId}`);
+  };
 
   return (
     <GenericTable<IGetClassesResponse>
       data={classes}
       columns={columns}
       isEditable={isEditable}
-      actionHandler={(classId: number) => navigate(`/classes/${classId}`)}
+      actionHandler={navigateHandler}
       deleteHandler={handleDeleteClass}
       idAccessor="classId"
       itemName="Class"
