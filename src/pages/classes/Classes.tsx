@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
-import ClassesTable from "../components/ui/tables/classes/ClassesTable";
+import ClassesTable from "../../components/ui/tables/classes/ClassesTable";
 
-import StyledButton from "../components/ui/buttons/StyledButton";
+import StyledButton from "../../components/ui/buttons/StyledButton";
 
-import { useClass } from "../hooks/useClass";
-import { useClassContext } from "../context/ClassContext";
-import AddClassCard from "../components/ui/cards/classes/AddClassCard";
+import { useClass } from "../../hooks/useClass";
+import { useClassContext } from "../../context/ClassContext";
+import AddClassCard from "../../components/ui/cards/classes/AddClassCard";
 
 const Classes = () => {
   const { getAllClasses } = useClass();
@@ -41,7 +41,11 @@ const Classes = () => {
       {selectedDisplay === "" && (
         <>
           <h3 className="text-xl mb-3 text-center">My Classes</h3>
-          <ClassesTable classes={classes} isEditable={true} />
+          <ClassesTable
+            classes={classes}
+            isEditable={true}
+            toNavigate="classes"
+          />
           <StyledButton
             buttonType="button"
             text="Add Classes"

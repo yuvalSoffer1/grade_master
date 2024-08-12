@@ -6,11 +6,11 @@ import { useClass } from "../../../../hooks/useClass";
 const ClassesTable = ({
   classes,
   isEditable,
-  toClass,
+  toNavigate,
 }: {
   classes: IGetClassesResponse[];
   isEditable: boolean;
-  toClass: boolean;
+  toNavigate: string;
 }) => {
   const columns: { header: string; accessor: keyof IGetClassesResponse }[] = [
     { header: "Class Name", accessor: "className" },
@@ -30,8 +30,7 @@ const ClassesTable = ({
     }
   };
   const navigateHandler = (classId: number) => {
-    if (toClass) navigate(`/classes/${classId}`);
-    navigate(`/settings/${classId}`);
+    navigate(`/${toNavigate}/${classId}`);
   };
 
   return (

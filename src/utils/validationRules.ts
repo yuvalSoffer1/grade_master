@@ -53,6 +53,26 @@ export const addClassValidationRules = {
   },
 };
 
+export const addStudentGradeValidationRules = {
+  studentId: {
+    required: "Student ID is required",
+  },
+  gradeItemId: {
+    required: "Grade Item ID is required",
+  },
+  score: {
+    required: "Score is required",
+    min: {
+      value: 0,
+      message: "Score must be at least 0",
+    },
+    max: {
+      value: 100,
+      message: "Score must be at most 100",
+    },
+  },
+};
+
 export const addStudentValidationRules = {
   studentId: {
     required: "Student ID is required",

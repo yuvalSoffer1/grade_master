@@ -1,10 +1,10 @@
-import { useClassContext } from "../context/ClassContext";
+import { useClassContext } from "../../context/ClassContext";
 import { useParams } from "react-router-dom";
-import ClassSettingsTable from "../components/ui/tables/classes/ClassSettingsTable";
+import ClassSettingsTable from "../../components/ui/tables/classes/ClassSettingsTable";
 import { useState } from "react";
-import AddGradeItem from "../components/ui/cards/classes/AddGradeItem";
-import StyledButton from "../components/ui/buttons/StyledButton";
-import EditGradeItems from "../components/ui/cards/classes/EditGradeItems";
+import AddGradeItem from "../../components/ui/cards/classes/AddGradeItem";
+import StyledButton from "../../components/ui/buttons/StyledButton";
+import EditGradeItems from "../../components/ui/cards/classes/EditGradeItems";
 
 const ClassSettings = () => {
   const [selectedDisplay, setSelectedDisplay] = useState("");

@@ -1,23 +1,23 @@
 import { useParams } from "react-router-dom";
-import { useClassContext } from "../context/ClassContext";
-import StudentsTable from "../components/ui/tables/students/StudentsTable";
-import { IStudentTable } from "../models/TableModels";
-import StyledButton from "../components/ui/buttons/StyledButton";
+import { useClassContext } from "../../context/ClassContext";
+import StudentsTable from "../../components/ui/tables/students/StudentsTable";
+import { IStudentTable } from "../../models/TableModels";
+import StyledButton from "../../components/ui/buttons/StyledButton";
 import { useEffect, useState } from "react";
-import StudentsAtClassModal from "../components/ui/modals/StudentsAtClassModal";
-import { useStudentContext } from "../context/StudentContext";
-import { IStudentResponse } from "../models/StudentsResponses";
-import { useStudent } from "../hooks/useStudent";
-import { useClass } from "../hooks/useClass";
+import StudentsAtClassModal from "../../components/ui/modals/StudentsAtClassModal";
+import { useStudentContext } from "../../context/StudentContext";
+import { IStudentResponse } from "../../models/StudentsResponses";
+import { useStudent } from "../../hooks/useStudent";
+import { useClass } from "../../hooks/useClass";
 import {
   CreateAttendancePayload,
   CreateAttendancesReportPayload,
-} from "../models/AttendancePayloads";
-import { IStudentAttendancesResponse } from "../models/AttendanceResponses";
-import AttendancesTable from "../components/ui/tables/classes/AttendancesTable";
-import { exportToCSV } from "../utils/exportToCsv";
+} from "../../models/AttendancePayloads";
+import { IStudentAttendancesResponse } from "../../models/AttendanceResponses";
+import AttendancesTable from "../../components/ui/tables/classes/AttendancesTable";
+import { exportToCSV } from "../../utils/exportToCsv";
 import { IconFileDownload, IconFileTypeCsv } from "@tabler/icons-react";
-import ExportToCsvButton from "../components/ui/buttons/ExportToCsvButton";
+import ExportToCsvButton from "../../components/ui/buttons/ExportToCsvButton";
 
 const ChosenClass = () => {
   const { classId } = useParams();

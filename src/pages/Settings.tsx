@@ -33,7 +33,7 @@ const Settings = () => {
     <div className=" flex flex-col items-center text-center">
       <h2 className="text-2xl font-bold mb-3 text-center">Settings</h2>
       <h3 className="text-xl mb-3 text-center">My Classes</h3>
-      <ClassesTable classes={classes} isEditable={true} toClass={false} />
+      <ClassesTable classes={classes} isEditable={true} toNavigate="settings" />
     </div>
   );
 };

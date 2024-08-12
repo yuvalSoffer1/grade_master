@@ -1,5 +1,10 @@
 import { dotnetApi } from "../api/apiConfig";
 import { useStudentContext } from "../context/StudentContext";
+import {
+  CreateGradePayload,
+  Grades,
+  GradesPayload,
+} from "../models/GradesPayloads";
 import { CreateStudentPayload } from "../models/StudentsPayloads";
 import { IStudentResponse } from "../models/StudentsResponses";
 import { axiosErrorExtractor } from "../utils/axiosErrorUtils";
@@ -59,10 +64,34 @@ export const useStudent = () => {
       throw new Error(err);
     }
   };
+
+  const addGradeToStudent = async (grade: CreateGradePayload) => {
+    try {
+      await dotnetApi.post(`students/${grade.studentId}/grades`, grade);
+      return;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
+
+  const addMultipleGradesToStudent = async (grades: GradesPayload) => {
+    try {
+      await dotnetApi.post("students/grades", grades);
+      return;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
   return {
     getAllStudents,
     createStudent,
     createStudentsFromCsv,
     deleteStudent,
+    addGradeToStudent,
+    addMultipleGradesToStudent,
   };
 };
