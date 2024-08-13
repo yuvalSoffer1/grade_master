@@ -72,6 +72,7 @@ export const exportFinalGradesReport = (
   data: IFinalGradeResponse,
   filename: string
 ) => {
+  if (data.students.length === 0) return;
   const csvData = [];
   const headers = [
     "Student ID",
