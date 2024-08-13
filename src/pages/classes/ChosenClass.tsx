@@ -14,9 +14,8 @@ import {
   CreateAttendancesReportPayload,
 } from "../../models/class/AttendancePayloads";
 import { IStudentAttendancesResponse } from "../../models/class/AttendanceResponses";
-import AttendancesTable from "../../components/ui/tables/classes/AttendancesTable";
-import { exportToCSV } from "../../utils/exportToCsv";
-import { IconFileDownload, IconFileTypeCsv } from "@tabler/icons-react";
+import { exportStudentsList } from "../../utils/exportToCsv";
+
 import ExportToCsvButton from "../../components/ui/buttons/ExportToCsvButton";
 
 const ChosenClass = () => {
@@ -70,7 +69,7 @@ const ChosenClass = () => {
 
   const handleExport = () => {
     if (selectedClass?.students && selectedClass.students.length > 0) {
-      exportToCSV(
+      exportStudentsList(
         selectedClass.students,
         `${selectedClass?.className.toLowerCase()}_${
           selectedClass?.groupId

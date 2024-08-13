@@ -65,7 +65,7 @@ const ClassGrades = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
+    <div className="flex flex-col items-center mt-8 lg:h-89dvh xl:min-h-92dvh">
       <div className=" flex flex-row justify-between items-center">
         <h2 className="text-2xl font-bold text-center">
           {`${selectedClass?.className}${selectedClass?.groupId}`}{" "}

@@ -2,6 +2,10 @@ import Papa from "papaparse";
 import { IStudentAttendancesResponse } from "../../../../models/class/AttendanceResponses";
 import { formatDate } from "../../../../utils/dateUtils";
 import ExportToCsvButton from "../../buttons/ExportToCsvButton";
+import {
+  exportAttendacesReport,
+  exportToCSV,
+} from "../../../../utils/exportToCsv";
 
 interface IAttendancesTableProps {
   report: IStudentAttendancesResponse[];
@@ -52,7 +56,9 @@ const AttendancesTable = ({ report, fileName }: IAttendancesTableProps) => {
   return (
     <div className="overflow-y-auto overflow-x-auto">
       <div className="flex justify-center">
-        <ExportToCsvButton onExport={handleExport} />
+        <ExportToCsvButton
+          onExport={() => exportAttendacesReport(report, fileName)}
+        />
       </div>
       <table className="min-w-full bg-white border-collapse">
         <thead>

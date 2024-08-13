@@ -32,7 +32,7 @@ const Grades = () => {
   );
 
   return (
-    <div className=" flex flex-col items-center text-center">
+    <div className=" flex flex-col items-center text-center mt-8">
       <h2 className="text-2xl font-bold mb-3 text-center">Grades</h2>
 
       <h3 className="text-xl mb-3 text-center">My Classes</h3>
