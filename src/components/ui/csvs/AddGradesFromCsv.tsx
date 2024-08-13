@@ -10,7 +10,7 @@ import {
   Grades,
   GradesPayload,
   ICreateGradesPayload,
-} from "../../../models/GradesPayloads";
+} from "../../../models/grades/GradesPayloads";
 
 interface IAddGradesFromCsvProps {
   setSelectedDisplay: () => void;

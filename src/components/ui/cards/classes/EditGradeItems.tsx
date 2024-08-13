@@ -4,8 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useClassContext } from "../../../../context/ClassContext";
 import { toast } from "react-toastify";
 import { DisplayType, useDisplay } from "../../../../hooks/useDisplay";
-import { UpdateGradeItemsPayload } from "../../../../models/GradeItemsPayloads";
-import { IGradeItemResponse } from "../../../../models/GradeItemsResponses";
+import { UpdateGradeItemsPayload } from "../../../../models/grades/GradeItemsPayloads";
+import { IGradeItemResponse } from "../../../../models/grades/GradeItemsResponses";
 
 interface IEditGradeItemsProps {
   setSelectedDisplay: (value: string) => void;

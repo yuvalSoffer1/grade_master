@@ -1,5 +1,5 @@
-import { IGradeItemResponse } from "./GradeItemsResponses";
-import { IStudentResponse } from "./StudentsResponses";
+import { IGradeItemResponse } from "../grades/GradeItemsResponses";
+import { IStudentResponse } from "../students/StudentsResponses";
 
 export interface IGetClassesResponse {
   classId: number;

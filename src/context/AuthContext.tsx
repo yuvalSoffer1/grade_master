@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
-import { ILoginResponse } from "../models/LoginResponse";
+import { ILoginResponse } from "../models/auth/LoginResponse";
 const currentUserJson = localStorage.getItem("currentUser");
 const currentUser: ILoginResponse | null = currentUserJson
   ? JSON.parse(currentUserJson)

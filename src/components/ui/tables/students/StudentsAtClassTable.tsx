@@ -1,5 +1,5 @@
 import { IconCirclePlusFilled, IconCircleXFilled } from "@tabler/icons-react";
-import { IStudentResponse } from "../../../../models/StudentsResponses";
+import { IStudentResponse } from "../../../../models/students/StudentsResponses";
 
 interface IStudentsAtClassTableProps {
   students: IStudentResponse[];

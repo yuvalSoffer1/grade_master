@@ -1,5 +1,5 @@
 import GenericTable from "../GenericTable";
-import { IGetClassesResponse } from "../../../../models/ClassResponses";
+import { IGetClassesResponse } from "../../../../models/class/ClassResponses";
 import { useNavigate } from "react-router-dom";
 import { useClass } from "../../../../hooks/useClass";
 

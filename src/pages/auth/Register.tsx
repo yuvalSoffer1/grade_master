@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { registerValidationRules } from "../../utils/validationRules";
 import GenericForm from "../../components/ui/cards/GenericForm";
-import { RegisterPayload } from "../../models/AuthPayloads";
+import { RegisterPayload } from "../../models/auth/AuthPayloads";
 import { useDisplay, DisplayType } from "../../hooks/useDisplay";
 
 const Register = () => {

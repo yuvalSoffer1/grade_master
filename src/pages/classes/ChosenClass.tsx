@@ -6,14 +6,14 @@ import StyledButton from "../../components/ui/buttons/StyledButton";
 import { useEffect, useState } from "react";
 import StudentsAtClassModal from "../../components/ui/modals/StudentsAtClassModal";
 import { useStudentContext } from "../../context/StudentContext";
-import { IStudentResponse } from "../../models/StudentsResponses";
+import { IStudentResponse } from "../../models/students/StudentsResponses";
 import { useStudent } from "../../hooks/useStudent";
 import { useClass } from "../../hooks/useClass";
 import {
   CreateAttendancePayload,
   CreateAttendancesReportPayload,
-} from "../../models/AttendancePayloads";
-import { IStudentAttendancesResponse } from "../../models/AttendanceResponses";
+} from "../../models/class/AttendancePayloads";
+import { IStudentAttendancesResponse } from "../../models/class/AttendanceResponses";
 import AttendancesTable from "../../components/ui/tables/classes/AttendancesTable";
 import { exportToCSV } from "../../utils/exportToCsv";
 import { IconFileDownload, IconFileTypeCsv } from "@tabler/icons-react";

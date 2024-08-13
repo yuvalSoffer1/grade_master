@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { loginValidationRules } from "../../utils/validationRules";
 import GenericForm from "../../components/ui/cards/GenericForm";
-import { LoginPayload } from "../../models/AuthPayloads";
+import { LoginPayload } from "../../models/auth/AuthPayloads";
 import { useDisplay, DisplayType } from "../../hooks/useDisplay";
 
 const Login = () => {

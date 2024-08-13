@@ -1,7 +1,7 @@
 import Papa from "papaparse";
-import { IStudentResponse } from "../models/StudentsResponses";
-import { IGetClassesResponse } from "../models/ClassResponses";
-import { IStudentAttendancesResponse } from "../models/AttendanceResponses";
+import { IStudentResponse } from "../models/students/StudentsResponses";
+import { IGetClassesResponse } from "../models/class/ClassResponses";
+import { IStudentAttendancesResponse } from "../models/class/AttendanceResponses";
 import { studentHeaders } from "../data/toCsvTablesHeaders";
 import { formatDate } from "./dateUtils";
 

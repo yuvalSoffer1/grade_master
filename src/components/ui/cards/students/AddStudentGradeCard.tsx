@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { IStudentResponse } from "../../../../models/StudentsResponses";
+import { IStudentResponse } from "../../../../models/students/StudentsResponses";
 import {
   addStudentGradeValidationRules,
   addStudentValidationRules,
 } from "../../../../utils/validationRules";
 import GenericForm from "../GenericForm";
-import { CreateGradePayload } from "../../../../models/GradesPayloads";
+import { CreateGradePayload } from "../../../../models/grades/GradesPayloads";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useClassContext } from "../../../../context/ClassContext";
-import { IGradeItemResponse } from "../../../../models/GradeItemsResponses";
+import { IGradeItemResponse } from "../../../../models/grades/GradeItemsResponses";
 import StyledButton from "../../buttons/StyledButton";
 import { DisplayType, useDisplay } from "../../../../hooks/useDisplay";
 import { useStudent } from "../../../../hooks/useStudent";

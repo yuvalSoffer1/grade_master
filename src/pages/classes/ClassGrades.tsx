@@ -6,10 +6,13 @@ import { useStudentContext } from "../../context/StudentContext";
 import { useParams } from "react-router-dom";
 
 import StudentsGradeTable from "../../components/ui/tables/students/StudentsGradeTable";
-import { IStudentResponse } from "../../models/StudentsResponses";
+import { IStudentResponse } from "../../models/students/StudentsResponses";
 import AddStudentGradeCard from "../../components/ui/cards/students/AddStudentGradeCard";
 import AddGradesFromCsv from "../../components/ui/csvs/AddGradesFromCsv";
 import StyledButton from "../../components/ui/buttons/StyledButton";
+import { useClass } from "../../hooks/useClass";
+import { IFinalGradeResponse } from "../../models/grades/FinalGradesResponses";
+import FinalGradesTable from "../../components/ui/tables/grades/FinalGradesTable";
 
 const ClassGrades = () => {
   const { classId } = useParams();
@@ -17,9 +20,12 @@ const ClassGrades = () => {
   const { classesState } = useClassContext();
   const { studentsState } = useStudentContext();
   const { getAllStudents } = useStudent();
+  const { getFinalGradesReport } = useClass();
 
   const [selectedDisplay, setSelectedDisplay] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<IStudentResponse>();
+  const [finalGradesReport, setFinalGradesReport] =
+    useState<IFinalGradeResponse>();
 
   const id = classId ? parseInt(classId) : undefined;
 
@@ -35,6 +41,18 @@ const ClassGrades = () => {
   const getAllStudentsAsync = async () => {
     try {
       await getAllStudents();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFinalGrades = async () => {
+    try {
+      if (typeof id === "number") {
+        const report = await getFinalGradesReport(id);
+        setFinalGradesReport(report);
+        setSelectedDisplay("REPORT");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -74,12 +92,15 @@ const ClassGrades = () => {
             <StyledButton
               buttonType="button"
               text="Get Grades Report"
-              onClickButton={() => setSelectedDisplay("CSV")}
+              onClickButton={getFinalGrades}
               extraColor="green"
               width="16.67%"
             />
           </>
         )}
+      {selectedDisplay === "REPORT" && finalGradesReport && (
+        <FinalGradesTable data={finalGradesReport} />
+      )}
       {selectedDisplay === "ADD" && selectedStudent && id && (
         <AddStudentGradeCard selectedStudent={selectedStudent} classId={id} />
       )}

@@ -3,7 +3,7 @@ import { useClass } from "../../../../hooks/useClass";
 import { toast } from "react-toastify";
 import { addClassValidationRules } from "../../../../utils/validationRules";
 import GenericForm from "../../../../components/ui/cards/GenericForm";
-import { CreateClassPayload } from "../../../../models/ClassPayloads";
+import { CreateClassPayload } from "../../../../models/class/ClassPayloads";
 import { useDisplay, DisplayType } from "../../../../hooks/useDisplay";
 import { useClassContext } from "../../../../context/ClassContext";
 

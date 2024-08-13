@@ -1,21 +1,22 @@
 import { dotnetApi } from "../api/apiConfig";
 import { useClassContext } from "../context/ClassContext";
-import { CreateAttendancesReportPayload } from "../models/AttendancePayloads";
+import { CreateAttendancesReportPayload } from "../models/class/AttendancePayloads";
 import {
   IGetAttendancesReportResponse,
   IStudentAttendancesResponse,
-} from "../models/AttendanceResponses";
+} from "../models/class/AttendanceResponses";
 import {
   AddStudentsToClassPayload,
   CreateClassPayload,
-} from "../models/ClassPayloads";
-import { IGetClassesResponse } from "../models/ClassResponses";
+} from "../models/class/ClassPayloads";
+import { IGetClassesResponse } from "../models/class/ClassResponses";
+import { IFinalGradeResponse } from "../models/grades/FinalGradesResponses";
 import {
   CreateGradeItemPayload,
   UpdateGradeItemsPayload,
-} from "../models/GradeItemsPayloads";
-import { IGradeItemResponse } from "../models/GradeItemsResponses";
-import { IStudentResponse } from "../models/StudentsResponses";
+} from "../models/grades/GradeItemsPayloads";
+import { IGradeItemResponse } from "../models/grades/GradeItemsResponses";
+import { IStudentResponse } from "../models/students/StudentsResponses";
 import { axiosErrorExtractor } from "../utils/axiosErrorUtils";
 
 export const useClass = () => {
@@ -181,6 +182,17 @@ export const useClass = () => {
     }
   };
 
+  const getFinalGradesReport = async (classId: number) => {
+    try {
+      const res = await dotnetApi.get(`classes/${classId}/final-grades`);
+      const data: IFinalGradeResponse = res.data;
+      return data;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
   return {
     getAllClasses,
     createClass,
@@ -193,5 +205,6 @@ export const useClass = () => {
     createGradeItem,
     deleteGradeItem,
     updateGradeItems,
+    getFinalGradesReport,
   };
 };

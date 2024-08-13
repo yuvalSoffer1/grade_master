@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { dotnetApi } from "../api/apiConfig";
 import { axiosErrorExtractor } from "../utils/axiosErrorUtils";
-import { RegisterPayload, LoginPayload } from "../models/AuthPayloads";
+import { RegisterPayload, LoginPayload } from "../models/auth/AuthPayloads";
 import { useAuthContext } from "../context/AuthContext";
-import { ILoginResponse } from "../models/LoginResponse";
+import { ILoginResponse } from "../models/auth/LoginResponse";
 
 export const useAuth = () => {
   const navigate = useNavigate();

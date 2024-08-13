@@ -1,4 +1,4 @@
-import { IStudentAttendancesResponse } from "../../../../models/AttendanceResponses";
+import { IStudentAttendancesResponse } from "../../../../models/class/AttendanceResponses";
 import { formatDate } from "../../../../utils/dateUtils";
 
 const AttendancesTable = ({

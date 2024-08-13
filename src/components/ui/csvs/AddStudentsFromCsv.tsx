@@ -3,7 +3,7 @@ import Papa from "papaparse";
 import StudentsTable from "../tables/students/StudentsTable";
 import StyledButton from "../buttons/StyledButton";
 import { IStudentTable } from "../../../models/TableModels";
-import { CreateStudentPayload } from "../../../models/StudentsPayloads";
+import { CreateStudentPayload } from "../../../models/students/StudentsPayloads";
 import { useStudent } from "../../../hooks/useStudent";
 import { toast } from "react-toastify";
 

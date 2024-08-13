@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
-import { IStudentResponse } from "../models/StudentsResponses";
+import { IStudentResponse } from "../models/students/StudentsResponses";
 
 type StudentAction =
   | { type: "GET_ALL_SUCCESS"; payload: IStudentResponse[] }

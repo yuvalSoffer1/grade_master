@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 import StudentsAtClass from "../tables/students/StudentsAtClassTable";
-import { IStudentResponse } from "../../../models/StudentsResponses";
+import { IStudentResponse } from "../../../models/students/StudentsResponses";
 
 import { useDisplay, DisplayType } from "../../../hooks/useDisplay";
 import { toast } from "react-toastify";
-import { IStudentAttendancesResponse } from "../../../models/AttendanceResponses";
+import { IStudentAttendancesResponse } from "../../../models/class/AttendanceResponses";
 import AttendancesTable from "../tables/classes/AttendancesTable";
-import StyledButton from "../buttons/StyledButton";
+
 import { exportToCSV } from "../../../utils/exportToCsv";
 import ExportToCsvButton from "../buttons/ExportToCsvButton";
 

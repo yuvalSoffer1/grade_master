@@ -1,5 +1,5 @@
 import { useClass } from "../../../../hooks/useClass";
-import { CreateGradeItemPayload } from "../../../../models/GradeItemsPayloads";
+import { CreateGradeItemPayload } from "../../../../models/grades/GradeItemsPayloads";
 import { DisplayType, useDisplay } from "../../../../hooks/useDisplay";
 import { SubmitHandler } from "react-hook-form";
 import { useClassContext } from "../../../../context/ClassContext";

@@ -1,8 +1,8 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
 
-import { IGetClassesResponse } from "../models/ClassResponses";
-import { IStudentResponse } from "../models/StudentsResponses";
-import { IGradeItemResponse } from "../models/GradeItemsResponses";
+import { IGetClassesResponse } from "../models/class/ClassResponses";
+import { IStudentResponse } from "../models/students/StudentsResponses";
+import { IGradeItemResponse } from "../models/grades/GradeItemsResponses";
 
 type ClassAction =
   | { type: "GET_ALL_SUCCESS"; payload: IGetClassesResponse[] }

@@ -4,9 +4,9 @@ import {
   CreateGradePayload,
   Grades,
   GradesPayload,
-} from "../models/GradesPayloads";
-import { CreateStudentPayload } from "../models/StudentsPayloads";
-import { IStudentResponse } from "../models/StudentsResponses";
+} from "../models/grades/GradesPayloads";
+import { CreateStudentPayload } from "../models/students/StudentsPayloads";
+import { IStudentResponse } from "../models/students/StudentsResponses";
 import { axiosErrorExtractor } from "../utils/axiosErrorUtils";
 
 export const useStudent = () => {

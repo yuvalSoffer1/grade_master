@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useStudent } from "../../../../hooks/useStudent";
 import { addStudentValidationRules } from "../../../../utils/validationRules";
 import GenericForm from "../../../../components/ui/cards/GenericForm";
-import { CreateStudentPayload } from "../../../../models/StudentsPayloads";
+import { CreateStudentPayload } from "../../../../models/students/StudentsPayloads";
 import { useDisplay, DisplayType } from "../../../../hooks/useDisplay";
 
 interface IAddStudentCardProps {

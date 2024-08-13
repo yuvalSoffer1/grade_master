@@ -1,4 +1,4 @@
-import { IStudentResponse } from "./StudentsResponses";
+import { IStudentResponse } from "./students/StudentsResponses";
 
 export interface IStudentTable extends IStudentResponse {
   prefixPhoneNumber: string | null;
