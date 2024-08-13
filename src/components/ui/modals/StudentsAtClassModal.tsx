@@ -8,9 +8,6 @@ import { toast } from "react-toastify";
 import { IStudentAttendancesResponse } from "../../../models/class/AttendanceResponses";
 import AttendancesTable from "../tables/classes/AttendancesTable";
 
-import { exportToCSV } from "../../../utils/exportToCsv";
-import ExportToCsvButton from "../buttons/ExportToCsvButton";
-
 interface IStudentsAtClassModalProps {
   title: string;
   isOpen: boolean;
@@ -58,16 +55,6 @@ const StudentsAtClassModal = ({
     }
   };
 
-  const handleExport = () => {
-    if (!isStudentResponse(availableData[0])) {
-      exportToCSV(
-        availableData as IStudentAttendancesResponse[],
-        `${title.replace(" ", "_").toLowerCase()}_students.csv`
-      );
-    }
-    return;
-  };
-
   return isOpen ? (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-11/12 p-6">
@@ -80,9 +67,9 @@ const StudentsAtClassModal = ({
           />
         ) : (
           <div className="flex flex-col items-center">
-            <ExportToCsvButton onExport={handleExport} />
             <AttendancesTable
               report={availableData as IStudentAttendancesResponse[]}
+              fileName={title.replace(" ", "_").toLowerCase()}
             />
           </div>
         )}

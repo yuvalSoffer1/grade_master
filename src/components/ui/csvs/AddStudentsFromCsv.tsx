@@ -136,7 +136,11 @@ const AddStudentsFromCsv = ({
   return (
     <div className="flex flex-col items-center text-center">
       <h2 className="text-2xl font-bold mb-6 text-center">Students From Csv</h2>
-      <input type="file" accept=".csv" onChange={handleFileChange} />
+      <input
+        type="file"
+        accept=".csv, .xlsx, .xls"
+        onChange={handleFileChange}
+      />
       {errors.length > 0 && (
         <div className="text-red-500">
           <ul>
