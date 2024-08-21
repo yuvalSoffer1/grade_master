@@ -13,6 +13,7 @@ import StyledButton from "../../components/ui/buttons/StyledButton";
 import { useClass } from "../../hooks/useClass";
 import { IFinalGradeResponse } from "../../models/grades/FinalGradesResponses";
 import FinalGradesTable from "../../components/ui/tables/grades/FinalGradesTable";
+import { toast } from "react-toastify";
 
 const ClassGrades = () => {
   const { classId } = useParams();
@@ -54,7 +55,9 @@ const ClassGrades = () => {
         setSelectedDisplay("REPORT");
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
   const getCurrentGrades = async () => {
@@ -65,7 +68,9 @@ const ClassGrades = () => {
         setSelectedDisplay("REPORT");
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
 
