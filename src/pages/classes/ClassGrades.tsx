@@ -20,7 +20,7 @@ const ClassGrades = () => {
   const { classesState } = useClassContext();
   const { studentsState } = useStudentContext();
   const { getAllStudents } = useStudent();
-  const { getFinalGradesReport } = useClass();
+  const { getFinalGradesReport, getCurrentGradesReport } = useClass();
 
   const [selectedDisplay, setSelectedDisplay] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<IStudentResponse>();
@@ -50,6 +50,17 @@ const ClassGrades = () => {
     try {
       if (typeof id === "number") {
         const report = await getFinalGradesReport(id);
+        setFinalGradesReport(report);
+        setSelectedDisplay("REPORT");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getCurrentGrades = async () => {
+    try {
+      if (typeof id === "number") {
+        const report = await getCurrentGradesReport(id);
         setFinalGradesReport(report);
         setSelectedDisplay("REPORT");
       }
@@ -91,8 +102,15 @@ const ClassGrades = () => {
             />
             <StyledButton
               buttonType="button"
-              text="Get Grades Report"
+              text="Get Final Grades Report"
               onClickButton={getFinalGrades}
+              extraColor="green"
+              width="16.67%"
+            />
+            <StyledButton
+              buttonType="button"
+              text="Get Current Grades Report"
+              onClickButton={getCurrentGrades}
               extraColor="green"
               width="16.67%"
             />
