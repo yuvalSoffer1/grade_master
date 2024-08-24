@@ -23,17 +23,21 @@ const Students = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    if (!isEffectRan.current) {
-      getAllStudentsAsync();
-    }
-    return () => {
-      isEffectRan.current = true;
-    };
-  }, []);
+  useEffect(
+    () => {
+      if (!isEffectRan.current) {
+        getAllStudentsAsync();
+      }
+      return () => {
+        isEffectRan.current = true;
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
-    <div className=" flex flex-col items-center text-center mt-8">
+    <div className=" flex flex-col items-center text-center mt-8 xl:mt-[4%]">
       <h2 className="text-2xl font-bold mb-3 text-center">Students</h2>
       {selectedDisplay === "" && (
         <>

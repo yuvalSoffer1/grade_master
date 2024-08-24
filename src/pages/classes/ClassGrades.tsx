@@ -99,26 +99,29 @@ const ClassGrades = () => {
               students={selectedClass.students}
               onAdd={onClickAdd}
             />
-            <StyledButton
-              buttonType="button"
-              text="Import Csv"
-              onClickButton={() => setSelectedDisplay("CSV")}
-              width="16.67%"
-            />
-            <StyledButton
-              buttonType="button"
-              text="Get Final Grades Report"
-              onClickButton={getFinalGrades}
-              extraColor="green"
-              width="16.67%"
-            />
-            <StyledButton
-              buttonType="button"
-              text="Get Current Grades Report"
-              onClickButton={getCurrentGrades}
-              extraColor="green"
-              width="16.67%"
-            />
+            <div className="flex flex-row justify-between h-20 mt-8">
+              {" "}
+              <StyledButton
+                buttonType="button"
+                text="Import Csv"
+                onClickButton={() => setSelectedDisplay("CSV")}
+                width="30%"
+              />
+              <StyledButton
+                buttonType="button"
+                text="Get Final Grades Report"
+                onClickButton={getFinalGrades}
+                extraColor="green"
+                width="30%"
+              />
+              <StyledButton
+                buttonType="button"
+                text="Get Current Grades Report"
+                onClickButton={getCurrentGrades}
+                extraColor="green"
+                width="30%"
+              />
+            </div>
           </>
         )}
       {selectedDisplay === "REPORT" && finalGradesReport && (

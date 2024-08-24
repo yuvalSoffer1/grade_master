@@ -16,7 +16,7 @@ const ClassSettings = () => {
     ? classesState.classes.find((c) => c.classId === id)
     : undefined;
   return (
-    <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
+    <div className="flex flex-col items-center mt-8 lg:h-89dvh xl:min-h-92dvh xl:mt-[4%]">
       <div className=" flex flex-row justify-between items-center">
         <h2 className="text-2xl font-bold text-center">
           {`${selectedClass?.className}${selectedClass?.groupId}`}
@@ -31,18 +31,20 @@ const ClassSettings = () => {
               isEditable={true}
               classId={id}
             />
-            <StyledButton
-              onClickButton={() => setSelectedDisplay("ADD")}
-              buttonType="button"
-              text="Add Grade Item"
-              width="15%"
-            />
-            <StyledButton
-              onClickButton={() => setSelectedDisplay("EDIT")}
-              buttonType="button"
-              text="Edit Grade Items"
-              width="15%"
-            />
+            <div className="flex flex-row justify-between mt-8 h-20">
+              <StyledButton
+                onClickButton={() => setSelectedDisplay("ADD")}
+                buttonType="button"
+                text="Add Grade Item"
+                width="40%"
+              />
+              <StyledButton
+                onClickButton={() => setSelectedDisplay("EDIT")}
+                buttonType="button"
+                text="Edit Grade Items"
+                width="40%"
+              />
+            </div>
           </>
         )}
       {selectedDisplay === "ADD" && id && (

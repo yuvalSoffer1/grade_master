@@ -106,11 +106,15 @@ const ChosenClass = () => {
     }
   };
 
-  useEffect(() => {
-    if (studentsState.students.length === 0) {
-      getAllStudentsAsync();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (studentsState.students.length === 0) {
+        getAllStudentsAsync();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
@@ -141,7 +145,7 @@ const ChosenClass = () => {
       ) : (
         <p>There are no students in the class</p>
       )}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mt-8">
         <StyledButton
           buttonType="button"
           text="Add Students"

@@ -36,7 +36,7 @@ const Classes = () => {
   );
 
   return (
-    <div className=" flex flex-col items-center text-center mt-8">
+    <div className=" flex flex-col items-center text-center mt-8 xl:mt-[4%]">
       <h2 className="text-2xl font-bold mb-3 text-center">Classes</h2>
       {selectedDisplay === "" && (
         <>
