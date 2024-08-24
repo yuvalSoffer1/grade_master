@@ -1,11 +1,7 @@
-import Papa from "papaparse";
 import { IStudentAttendancesResponse } from "../../../../models/class/AttendanceResponses";
 import { formatDate } from "../../../../utils/dateUtils";
 import ExportToCsvButton from "../../buttons/ExportToCsvButton";
-import {
-  exportAttendacesReport,
-  exportToCSV,
-} from "../../../../utils/exportToCsv";
+import { exportAttendacesReport } from "../../../../utils/exportToCsv";
 
 interface IAttendancesTableProps {
   report: IStudentAttendancesResponse[];
@@ -13,46 +9,6 @@ interface IAttendancesTableProps {
 }
 
 const AttendancesTable = ({ report, fileName }: IAttendancesTableProps) => {
-  const handleExport = () => {
-    if (report.length === 0) return;
-
-    // Prepare the CSV headers
-    const headers = [
-      "Student ID",
-      "First Name",
-      "Last Name",
-      ...Object.keys(report[0].attendanceDates).map((date) => formatDate(date)),
-      "Total Attendances",
-      "Total Lectures",
-    ].reverse();
-
-    // Prepare the CSV data
-    const csvData = report.map((student) => {
-      return [
-        student.studentId,
-        student.firstName,
-        student.lastName,
-        ...Object.values(student.attendanceDates),
-        student.totalAttendances,
-        student.totalLectures,
-      ].reverse();
-    });
-    // Add headers to CSV data
-    csvData.unshift(headers);
-
-    // Convert to CSV string
-    const csvString = Papa.unparse(csvData);
-
-    // Create a blob from the CSV string and trigger download
-    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${fileName}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
   return (
     <div className="overflow-y-auto overflow-x-auto">
       <div className="flex justify-center">

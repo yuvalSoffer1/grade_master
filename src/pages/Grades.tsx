@@ -1,5 +1,3 @@
-import React from "react";
-
 import { useEffect, useRef } from "react";
 import { useClass } from "../hooks/useClass";
 import { useClassContext } from "../context/ClassContext";

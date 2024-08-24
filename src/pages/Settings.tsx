@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useClass } from "../hooks/useClass";
 import { useClassContext } from "../context/ClassContext";
 import ClassesTable from "../components/ui/tables/classes/ClassesTable";

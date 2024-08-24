@@ -1,14 +1,8 @@
 import { dotnetApi } from "../api/apiConfig";
 import { useClassContext } from "../context/ClassContext";
 import { CreateAttendancesReportPayload } from "../models/class/AttendancePayloads";
-import {
-  IGetAttendancesReportResponse,
-  IStudentAttendancesResponse,
-} from "../models/class/AttendanceResponses";
-import {
-  AddStudentsToClassPayload,
-  CreateClassPayload,
-} from "../models/class/ClassPayloads";
+import { IStudentAttendancesResponse } from "../models/class/AttendanceResponses";
+import { CreateClassPayload } from "../models/class/ClassPayloads";
 import { IGetClassesResponse } from "../models/class/ClassResponses";
 import { IFinalGradeResponse } from "../models/grades/FinalGradesResponses";
 import {

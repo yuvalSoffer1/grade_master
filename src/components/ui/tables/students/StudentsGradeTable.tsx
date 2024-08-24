@@ -1,7 +1,3 @@
-import { IStudentTable } from "../../../../models/TableModels";
-import { useStudent } from "../../../../hooks/useStudent";
-import GenericTable from "../GenericTable";
-import { useClass } from "../../../../hooks/useClass";
 import { IconCirclePlusFilled } from "@tabler/icons-react";
 import { IStudentResponse } from "../../../../models/students/StudentsResponses";
 interface IStudentsGradeTableProps {

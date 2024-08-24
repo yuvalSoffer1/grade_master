@@ -1,5 +1,3 @@
-import React from "react";
-
 interface IGradesTableProps {
   studentId: string;
   gradeItemNames: Record<string, number>;
