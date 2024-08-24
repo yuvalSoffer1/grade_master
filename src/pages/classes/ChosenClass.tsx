@@ -14,9 +14,8 @@ import {
   CreateAttendancesReportPayload,
 } from "../../models/class/AttendancePayloads";
 import { IStudentAttendancesResponse } from "../../models/class/AttendanceResponses";
-import AttendancesTable from "../../components/ui/tables/classes/AttendancesTable";
-import { exportToCSV } from "../../utils/exportToCsv";
-import { IconFileDownload, IconFileTypeCsv } from "@tabler/icons-react";
+import { exportStudentsList } from "../../utils/exportToCsv";
+
 import ExportToCsvButton from "../../components/ui/buttons/ExportToCsvButton";
 
 const ChosenClass = () => {
@@ -70,7 +69,7 @@ const ChosenClass = () => {
 
   const handleExport = () => {
     if (selectedClass?.students && selectedClass.students.length > 0) {
-      exportToCSV(
+      exportStudentsList(
         selectedClass.students,
         `${selectedClass?.className.toLowerCase()}_${
           selectedClass?.groupId
@@ -107,11 +106,15 @@ const ChosenClass = () => {
     }
   };
 
-  useEffect(() => {
-    if (studentsState.students.length === 0) {
-      getAllStudentsAsync();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (studentsState.students.length === 0) {
+        getAllStudentsAsync();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
@@ -142,7 +145,7 @@ const ChosenClass = () => {
       ) : (
         <p>There are no students in the class</p>
       )}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mt-8">
         <StyledButton
           buttonType="button"
           text="Add Students"

@@ -6,7 +6,7 @@ import AddStudentsFromCsv from "../components/ui/csvs/AddStudentsFromCsv";
 import { useStudentContext } from "../context/StudentContext";
 import StyledButton from "../components/ui/buttons/StyledButton";
 import { IStudentTable } from "../models/TableModels";
-import { exportToCSV } from "../utils/exportToCsv";
+import { exportStudentsList } from "../utils/exportToCsv";
 import ExportToCsvButton from "../components/ui/buttons/ExportToCsvButton";
 
 const Students = () => {
@@ -15,9 +15,6 @@ const Students = () => {
   const [selectedDisplay, setSelectedDisplay] = useState("");
   const { studentsState } = useStudentContext();
   const { students } = studentsState;
-  const handleExport = () => {
-    exportToCSV(students, "students.csv");
-  };
 
   const getAllStudentsAsync = async () => {
     try {
@@ -26,21 +23,27 @@ const Students = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    if (!isEffectRan.current) {
-      getAllStudentsAsync();
-    }
-    return () => {
-      isEffectRan.current = true;
-    };
-  }, []);
+  useEffect(
+    () => {
+      if (!isEffectRan.current) {
+        getAllStudentsAsync();
+      }
+      return () => {
+        isEffectRan.current = true;
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
-    <div className=" flex flex-col items-center text-center">
+    <div className=" flex flex-col items-center text-center mt-8 xl:mt-[4%]">
       <h2 className="text-2xl font-bold mb-3 text-center">Students</h2>
       {selectedDisplay === "" && (
         <>
-          <ExportToCsvButton onExport={handleExport} />
+          <ExportToCsvButton
+            onExport={() => exportStudentsList(students, "students.csv")}
+          />
           <StudentsTable
             students={students as IStudentTable[]}
             isEditable={true}

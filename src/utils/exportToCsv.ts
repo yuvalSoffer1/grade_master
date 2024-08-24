@@ -1,49 +1,64 @@
 import Papa from "papaparse";
 import { IStudentResponse } from "../models/students/StudentsResponses";
-import { IGetClassesResponse } from "../models/class/ClassResponses";
 import { IStudentAttendancesResponse } from "../models/class/AttendanceResponses";
-import { studentHeaders } from "../data/toCsvTablesHeaders";
 import { formatDate } from "./dateUtils";
+import { IFinalGradeResponse } from "../models/grades/FinalGradesResponses";
 
-type DataToCsv =
-  | IStudentResponse[]
-  | IGetClassesResponse[]
-  | IStudentAttendancesResponse[];
+export const exportStudentsList = (
+  data: IStudentResponse[],
+  filename: string
+) => {
+  if (data.length === 0) return;
+  const headers = [
+    "Student ID",
+    "First Name",
+    "Last Name",
+    "Phone Number",
+  ].reverse();
+  const formattedData = formattedDataStudent(data);
 
-export const exportToCSV = (data: DataToCsv, filename: string): void => {
-  let csv;
-  let formattedData;
+  const csvData = formattedData.map((student) => {
+    return [
+      student.studentId,
+      student.firstName,
+      student.lastName,
+      student.phoneNumber,
+    ].reverse();
+  });
+  csvData.unshift(headers);
 
-  if (isStudentResponseArray(data)) {
-    formattedData = formattedDataStudent(data);
-    csv = Papa.unparse({
-      fields: studentHeaders.reverse(),
-      data: formattedData.map((student) =>
-        [
-          student.studentId,
-          student.firstName,
-          student.lastName,
-          student.phoneNumber,
-        ].reverse()
-      ),
-    });
-  } else if (isAttendanceResponseArray(data)) {
-    return;
-  } else {
-    csv = Papa.unparse(data);
-  }
-
-  fileDownloader(csv, filename);
+  const csvString = Papa.unparse(csvData);
+  fileDownloader(csvString, filename);
 };
 
-const isStudentResponseArray = (data: any): data is IStudentResponse[] => {
-  return Array.isArray(data) && data.length > 0 && "studentId" in data[0];
-};
+export const exportAttendacesReport = (
+  report: IStudentAttendancesResponse[],
+  filename: string
+) => {
+  if (report.length === 0) return;
+  const headers = [
+    "Student ID",
+    "First Name",
+    "Last Name",
+    ...Object.keys(report[0].attendanceDates).map((date) => formatDate(date)),
+    "Total Attendances",
+    "Total Lectures",
+  ].reverse();
 
-const isAttendanceResponseArray = (
-  data: any
-): data is IStudentAttendancesResponse[] => {
-  return Array.isArray(data) && data.length > 0 && "attendanceDates" in data[0];
+  // Prepare the CSV data
+  const csvData = report.map((student) => {
+    return [
+      student.studentId,
+      student.firstName,
+      student.lastName,
+      ...Object.values(student.attendanceDates),
+      student.totalAttendances,
+      student.totalLectures,
+    ].reverse();
+  });
+  csvData.unshift(headers);
+  const csvString = Papa.unparse(csvData);
+  fileDownloader(csvString, filename);
 };
 
 const formattedDataStudent = (data: IStudentResponse[]) => {
@@ -53,34 +68,45 @@ const formattedDataStudent = (data: IStudentResponse[]) => {
   }));
 };
 
-const formattedDataAttendances = (responses: IStudentAttendancesResponse[]) => {
-  return responses.map((response) => {
-    const { attendanceDates, ...rest } = response;
+export const exportFinalGradesReport = (
+  data: IFinalGradeResponse,
+  filename: string
+) => {
+  if (data.students.length === 0) return;
+  const csvData = [];
+  const headers = [
+    "Student ID",
+    "Student Name",
+    ...data.students[0].grades.map(
+      (grade) => `${grade.name} (${grade.weight * 100}%)`
+    ),
+    "Final Grade",
+  ].reverse();
+  csvData.push(headers);
 
-    // Create a new object with formatted date keys
-    const formattedAttendanceDates = Object.keys(attendanceDates).reduce(
-      (acc, dateKey) => {
-        const formattedKey = formatDate(dateKey);
-
-        // Ensure the value is boolean
-        const value = attendanceDates[dateKey];
-        if (typeof value === "boolean") {
-          acc[formattedKey] = value;
-        } else {
-          // Handle unexpected types if necessary
-          console.warn(`Unexpected type for key ${dateKey}:`, typeof value);
-        }
-
-        return acc;
-      },
-      {} as Record<string, boolean>
-    );
-
-    return {
-      ...rest,
-      ...formattedAttendanceDates,
-    };
+  // Loop through each student and add their data
+  data.students.forEach((student) => {
+    const row = [
+      student.studentId,
+      student.studentName,
+      ...student.grades.map((grade) => grade.score),
+      student.finalGrade,
+    ].reverse();
+    csvData.push(row);
   });
+
+  // Add class average as the last row
+  const classAverageRow = [
+    "", // Empty for Student ID
+    "Class Average",
+    ...new Array(data.students[0].grades.length).fill(""), // Empty cells for grades
+    data.classAverage,
+  ].reverse();
+  csvData.push(classAverageRow);
+
+  // Convert to CSV string
+  const csvString = Papa.unparse(csvData);
+  fileDownloader(csvString, filename);
 };
 
 const fileDownloader = (csvData: string, fileName: string) => {

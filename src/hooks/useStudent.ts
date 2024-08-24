@@ -2,7 +2,6 @@ import { dotnetApi } from "../api/apiConfig";
 import { useStudentContext } from "../context/StudentContext";
 import {
   CreateGradePayload,
-  Grades,
   GradesPayload,
 } from "../models/grades/GradesPayloads";
 import { CreateStudentPayload } from "../models/students/StudentsPayloads";

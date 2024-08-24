@@ -1,12 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import OfflineHeader from "./features/OfflineHeader";
 import OnlineHeader from "./features/OnlineHeader";
-import { useAuthContext } from "../../../context/AuthContext";
 
 const Header = () => {
-  const { state } = useAuthContext();
   const token = Cookies.get("jwt_token");
   return (
     <header className="bg-blue-600 text-white p-4">

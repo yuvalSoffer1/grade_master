@@ -13,6 +13,7 @@ import StyledButton from "../../components/ui/buttons/StyledButton";
 import { useClass } from "../../hooks/useClass";
 import { IFinalGradeResponse } from "../../models/grades/FinalGradesResponses";
 import FinalGradesTable from "../../components/ui/tables/grades/FinalGradesTable";
+import { toast } from "react-toastify";
 
 const ClassGrades = () => {
   const { classId } = useParams();
@@ -20,7 +21,7 @@ const ClassGrades = () => {
   const { classesState } = useClassContext();
   const { studentsState } = useStudentContext();
   const { getAllStudents } = useStudent();
-  const { getFinalGradesReport } = useClass();
+  const { getFinalGradesReport, getCurrentGradesReport } = useClass();
 
   const [selectedDisplay, setSelectedDisplay] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<IStudentResponse>();
@@ -54,7 +55,22 @@ const ClassGrades = () => {
         setSelectedDisplay("REPORT");
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      toast.error(errorMessage);
+    }
+  };
+  const getCurrentGrades = async () => {
+    try {
+      if (typeof id === "number") {
+        const report = await getCurrentGradesReport(id);
+        setFinalGradesReport(report);
+        setSelectedDisplay("REPORT");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
 
@@ -65,7 +81,7 @@ const ClassGrades = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center lg:h-89dvh xl:min-h-92dvh">
+    <div className="flex flex-col items-center mt-8 lg:h-89dvh xl:min-h-92dvh">
       <div className=" flex flex-row justify-between items-center">
         <h2 className="text-2xl font-bold text-center">
           {`${selectedClass?.className}${selectedClass?.groupId}`}{" "}
@@ -83,19 +99,29 @@ const ClassGrades = () => {
               students={selectedClass.students}
               onAdd={onClickAdd}
             />
-            <StyledButton
-              buttonType="button"
-              text="Import Csv"
-              onClickButton={() => setSelectedDisplay("CSV")}
-              width="16.67%"
-            />
-            <StyledButton
-              buttonType="button"
-              text="Get Grades Report"
-              onClickButton={getFinalGrades}
-              extraColor="green"
-              width="16.67%"
-            />
+            <div className="flex flex-row justify-between h-20 mt-8">
+              {" "}
+              <StyledButton
+                buttonType="button"
+                text="Import Csv"
+                onClickButton={() => setSelectedDisplay("CSV")}
+                width="30%"
+              />
+              <StyledButton
+                buttonType="button"
+                text="Get Final Grades Report"
+                onClickButton={getFinalGrades}
+                extraColor="green"
+                width="30%"
+              />
+              <StyledButton
+                buttonType="button"
+                text="Get Current Grades Report"
+                onClickButton={getCurrentGrades}
+                extraColor="green"
+                width="30%"
+              />
+            </div>
           </>
         )}
       {selectedDisplay === "REPORT" && finalGradesReport && (

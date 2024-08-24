@@ -1,4 +1,3 @@
-import React from "react";
 import { IGradeItemResponse } from "../../../../models/grades/GradeItemsResponses";
 import GenericTable from "../GenericTable";
 import { useClass } from "../../../../hooks/useClass";

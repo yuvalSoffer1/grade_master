@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IStudentResponse } from "../../../../models/students/StudentsResponses";
-import {
-  addStudentGradeValidationRules,
-  addStudentValidationRules,
-} from "../../../../utils/validationRules";
-import GenericForm from "../GenericForm";
+import { addStudentGradeValidationRules } from "../../../../utils/validationRules";
+
 import { CreateGradePayload } from "../../../../models/grades/GradesPayloads";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useClassContext } from "../../../../context/ClassContext";
