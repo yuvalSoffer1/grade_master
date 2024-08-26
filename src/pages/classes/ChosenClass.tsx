@@ -17,6 +17,7 @@ import { IStudentAttendancesResponse } from "../../models/class/AttendanceRespon
 import { exportStudentsList } from "../../utils/exportToCsv";
 
 import ExportToCsvButton from "../../components/ui/buttons/ExportToCsvButton";
+import { toast } from "react-toastify";
 
 const ChosenClass = () => {
   const { classId } = useParams();
@@ -58,13 +59,18 @@ const ChosenClass = () => {
   };
 
   const onGetReport = async () => {
-    if (id) {
-      const result = await getAttendancesReport(id);
-      setAttendancesReport(result);
-      setIsOpen(true);
-      setTableType("ATT");
+    try {
+      if (id) {
+        const result = await getAttendancesReport(id);
+        setAttendancesReport(result);
+        setIsOpen(true);
+        setTableType("ATT");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } catch (error) {
+      toast.error("There are no attendance reports to show");
     }
-    return;
   };
 
   const handleExport = () => {

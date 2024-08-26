@@ -155,7 +155,18 @@ export const useClass = () => {
   ) => {
     try {
       await dotnetApi.put(`classes/${classId}/grade-items`, gradeItems);
-      return;
+      const updatedGradeItems: IGradeItemResponse[] =
+        gradeItems.gradeItemDtos.map((gradeItem) => ({
+          gradeItemId: gradeItem.gradeItemId,
+          name: "",
+          weight: gradeItem.weight,
+        }));
+
+      // Dispatch the action with the converted data
+      classDispatch({
+        type: "UPDATE_GRADE_ITEMS_SUCCESS",
+        payload: { classId, gradeItems: updatedGradeItems },
+      });
     } catch (error: unknown) {
       const err = axiosErrorExtractor(error);
 

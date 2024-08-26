@@ -23,6 +23,10 @@ type ClassAction =
   | {
       type: "REMOVE_GRADE_ITEM_SUCCESS";
       payload: { classId: number; gradeItemId: number };
+    }
+  | {
+      type: "UPDATE_GRADE_ITEMS_SUCCESS";
+      payload: { classId: number; gradeItems: IGradeItemResponse[] };
     };
 
 interface ClassState {
@@ -106,6 +110,30 @@ const classReducer = (state: ClassState, action: ClassAction): ClassState => {
                 gradeItems: (c.gradeItems ?? []).filter(
                   (gi) => gi.gradeItemId !== gradeItemId
                 ),
+              }
+            : c
+        ),
+      };
+    }
+    case "UPDATE_GRADE_ITEMS_SUCCESS": {
+      const { classId, gradeItems } = action.payload;
+
+      return {
+        classes: state.classes.map((c) =>
+          c.classId === classId
+            ? {
+                ...c,
+                gradeItems:
+                  c.gradeItems?.map((existingItem) => {
+                    // Find the updated item in the payload
+                    const updatedItem = gradeItems.find(
+                      (item) => item.gradeItemId === existingItem.gradeItemId
+                    );
+                    // Return the updated item with new weight, or the existing item
+                    return updatedItem
+                      ? { ...existingItem, weight: updatedItem.weight }
+                      : existingItem;
+                  }) || [],
               }
             : c
         ),
