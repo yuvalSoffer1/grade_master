@@ -57,7 +57,9 @@ const GenericTable = <T extends { [key: string]: any }>({
                 {column.header}
               </th>
             ))}
-            {isEditable && <th className="px-4 py-2 border">Actions</th>}
+            {(actionHandler || deleteHandler) && (
+              <th className="px-4 py-2 border">Actions</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -72,7 +74,7 @@ const GenericTable = <T extends { [key: string]: any }>({
                 </td>
               ))}
 
-              {isEditable && (
+              {(actionHandler || deleteHandler) && (
                 <td className=" flex flex-row px-4 py-2 text-center border">
                   {actionHandler && (
                     <IconCirclePlus
@@ -80,7 +82,7 @@ const GenericTable = <T extends { [key: string]: any }>({
                       onClick={() => actionHandler(item[idAccessor])}
                     />
                   )}
-                  {deleteHandler && (
+                  {isEditable && deleteHandler && (
                     <IconTrashFilled
                       className="cursor-pointer"
                       onClick={() => {

@@ -34,7 +34,7 @@ const Grades = () => {
       <h2 className="text-2xl font-bold mb-3 text-center">Grades</h2>
 
       <h3 className="text-xl mb-3 text-center">My Classes</h3>
-      <ClassesTable classes={classes} isEditable={true} toNavigate="grades" />
+      <ClassesTable classes={classes} isEditable={false} toNavigate="grades" />
     </div>
   );
 };
