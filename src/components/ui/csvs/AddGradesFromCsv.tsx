@@ -21,6 +21,11 @@ const AddGradesFromCsv = ({ setSelectedDisplay }: IAddGradesFromCsvProps) => {
   const [gradesFromCsv, setGradesFromCsv] = useState<
     IGradesTable<{ [key: string]: number }>[] | null
   >(null);
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = () => {
+    setChecked(!checked);
+  };
 
   const { addMultipleGradesToStudent } = useStudent();
   const { classesState } = useClassContext();
@@ -38,8 +43,11 @@ const AddGradesFromCsv = ({ setSelectedDisplay }: IAddGradesFromCsvProps) => {
         toast.error("No grades data to submit.");
         return;
       }
+      if (!checked) {
+        toast.error("Checkbox isn't checked!");
+        return;
+      }
 
-      // Prepare payload
       const gradesPayload: Grades = gradesFromCsv.reduce((acc, student) => {
         const studentGrades: ICreateGradesPayload[] = Object.entries(
           student.gradeItemNames
@@ -68,8 +76,9 @@ const AddGradesFromCsv = ({ setSelectedDisplay }: IAddGradesFromCsvProps) => {
       toast.success("Grades were successfully submitted.");
       setSelectedDisplay();
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to submit grades. Please try again.");
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
 
@@ -190,12 +199,30 @@ const AddGradesFromCsv = ({ setSelectedDisplay }: IAddGradesFromCsvProps) => {
         <>
           <GradesTable data={gradesFromCsv} />
           {!errors.length && (
-            <StyledButton
-              buttonType="button"
-              text="Submit"
-              width="30%"
-              onClickButton={onSubmit}
-            />
+            <>
+              <div className="flex items-center mt-4">
+                <input
+                  id="checkbox"
+                  type="checkbox"
+                  checked={checked}
+                  onChange={handleChange}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label
+                  htmlFor="checkbox"
+                  className="ml-2 text-sm font-medium text-gray-900"
+                >
+                  In case of duplicates the csv will override the current
+                  grades!
+                </label>
+              </div>
+              <StyledButton
+                buttonType="button"
+                text="Submit"
+                width="30%"
+                onClickButton={onSubmit}
+              />
+            </>
           )}
         </>
       )}

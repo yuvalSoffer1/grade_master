@@ -48,7 +48,15 @@ const ClassGrades = () => {
   };
 
   const getFinalGrades = async () => {
+    const totalWeight = classesState.classes
+      .flatMap((cls) => cls.gradeItems || [])
+      .reduce((total, item) => total + (item.weight || 0), 0);
+
     try {
+      if (totalWeight !== 1) {
+        toast.error("The total weight of grade items must be exactly 100.");
+        return;
+      }
       if (typeof id === "number") {
         const report = await getFinalGradesReport(id);
         setFinalGradesReport(report);

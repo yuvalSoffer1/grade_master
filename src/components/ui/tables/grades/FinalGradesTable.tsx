@@ -52,10 +52,12 @@ const FinalGradesTable = ({ data }: IFinalGradeTableProps) => {
           ))}
         </tbody>
       </table>
-      <div className="mt-4 text-center">
-        <span className="font-semibold">Class Average:</span>{" "}
-        {data.classAverage}
-      </div>
+      {data.classAverage >= 0 && (
+        <div className="mt-4 text-center">
+          <span className="font-semibold">Class Average:</span>{" "}
+          {data.classAverage}
+        </div>
+      )}
     </div>
   );
 };
