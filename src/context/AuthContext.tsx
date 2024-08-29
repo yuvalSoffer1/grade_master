@@ -37,7 +37,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       };
 
     case "LOGOUT":
-      localStorage.removeItem("currentUser");
       return {
         firstName: "",
         lastName: "",

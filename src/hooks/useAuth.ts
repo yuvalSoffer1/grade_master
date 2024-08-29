@@ -37,6 +37,7 @@ export const useAuth = () => {
   const logout = () => {
     Cookies.remove("jwt_token");
     dispatch({ type: "LOGOUT" });
+    localStorage.clear();
     navigate("/");
   };
 
