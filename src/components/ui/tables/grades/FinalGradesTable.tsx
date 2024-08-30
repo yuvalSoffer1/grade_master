@@ -1,7 +1,6 @@
 import { IFinalGradeResponse } from "../../../../models/grades/FinalGradesResponses";
 import ExportToCsvButton from "../../buttons/ExportToCsvButton";
 import { exportFinalGradesReport } from "../../../../utils/exportToCsv";
-import StyledButton from "../../buttons/StyledButton";
 import { useClass } from "../../../../hooks/useClass";
 import { DisplayType, useDisplay } from "../../../../hooks/useDisplay";
 import DeleteModal from "../../modals/DeleteModal";
