@@ -198,6 +198,17 @@ export const useClass = () => {
       throw new Error(err);
     }
   };
+  const deleteFinalGradesReport = async (classId: number) => {
+    try {
+      await dotnetApi.delete(`classes/${classId}/final-grades`);
+
+      return;
+    } catch (error: unknown) {
+      const err = axiosErrorExtractor(error);
+
+      throw new Error(err);
+    }
+  };
   const getCurrentGradesReport = async (classId: number) => {
     try {
       const res = await dotnetApi.get(`classes/${classId}/grades`);
@@ -223,5 +234,6 @@ export const useClass = () => {
     updateGradeItems,
     getFinalGradesReport,
     getCurrentGradesReport,
+    deleteFinalGradesReport,
   };
 };

@@ -132,8 +132,12 @@ const ClassGrades = () => {
             </div>
           </>
         )}
-      {selectedDisplay === "REPORT" && finalGradesReport && (
-        <FinalGradesTable data={finalGradesReport} />
+      {selectedDisplay === "REPORT" && finalGradesReport && id && (
+        <FinalGradesTable
+          data={finalGradesReport}
+          classId={id}
+          setSelectedDisplay={setSelectedDisplay}
+        />
       )}
       {selectedDisplay === "ADD" && selectedStudent && id && (
         <AddStudentGradeCard selectedStudent={selectedStudent} classId={id} />
