@@ -49,6 +49,7 @@ const ClassGrades = () => {
 
   const getFinalGrades = async () => {
     const totalWeight = classesState.classes
+      .filter((cls) => cls.classId === id)
       .flatMap((cls) => cls.gradeItems || [])
       .reduce((total, item) => total + (item.weight || 0), 0);
 

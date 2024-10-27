@@ -38,7 +38,11 @@ const StudentsAtClassModal = ({
   };
 
   const isStudentResponse = (data: any): data is IStudentResponse => {
-    return "phoneNumber" in data;
+    return data !== undefined && "phoneNumber" in data;
+  };
+
+  const isAttendances = (data: any): data is IStudentAttendancesResponse => {
+    return data !== undefined && "totalAttendances" in data;
   };
 
   const handleConfirm = async () => {
@@ -59,13 +63,14 @@ const StudentsAtClassModal = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-11/12 p-6">
         <h2 className="text-lg text-center font-semibold mb-4">{title}</h2>
-        {isStudentResponse(availableData[0]) ? (
+        {isStudentResponse(availableData[0]) && (
           <StudentsAtClass
             students={availableData as IStudentResponse[]}
             chosenStudentsIds={chosenStudentsIds}
             onSelect={onSelect}
           />
-        ) : (
+        )}
+        {isAttendances(availableData[0]) && (
           <div className="flex flex-col items-center">
             <AttendancesTable
               report={availableData as IStudentAttendancesResponse[]}

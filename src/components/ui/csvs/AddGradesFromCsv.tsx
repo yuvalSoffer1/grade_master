@@ -180,7 +180,7 @@ const AddGradesFromCsv = ({ setSelectedDisplay }: IAddGradesFromCsvProps) => {
 
   return (
     <div className="flex flex-col items-center text-center">
-      <h2 className="text-2xl font-bold mb-6 text-center">Students From Csv</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Grades From Csv</h2>
       <input
         type="file"
         accept=".csv, .xlsx, .xls"

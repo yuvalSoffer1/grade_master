@@ -72,7 +72,7 @@ const AddGradeItem = ({
   return (
     <div className="flex items-center justify-center text-left w-2/3 ">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md border border-gray-400 ">
-        <h2 className="text-2xl font-bold mb-3 text-center">Add Class</h2>
+        <h2 className="text-2xl font-bold mb-3 text-center">Add grade item</h2>
         <GenericForm fields={fields} onSubmit={onSubmit} buttonText="Add" />
       </div>
     </div>
